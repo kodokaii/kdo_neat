@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/13 21:19:03 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/13 21:42:40 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,20 @@
 
 int	main(int argc, char *argv[])
 {
+	(void)argv;
 	if (1 < argc)
 	{
-		while (1)
-		{
-			usleep(100);
-			printf("%d\n", ft_rand());
-		}
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
+		printf("rng = %f\n", (float)ft_rand() / (float)INT_MAX);
 	}
 	return (0);
 }

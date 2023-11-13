@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/13 20:38:30 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/13 23:47:53 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ typedef struct s_kdo_genome_buf
 {
 	t_buf	link;
 	t_buf	node;
+	t_uint	link_count;
+	t_uint	node_count;
 }	t_kdo_genome_buf;
 
 typedef struct s_kdo_spacies
@@ -102,6 +104,13 @@ typedef struct s_kdo_neat_params
 	float	diff_modifer;
 	float	drop_off_age;
 	float	survival_limit;
+	float	mutate_link;
+	float	mutate_weight_shift;
+	float	mutate_weight_random;
+	float	mutate_weight_toggle;
+	float	mutate_node;
+	float	mutate_bias;
+	float	mutate_function;
 }	t_kdo_neat_params;
 
 typedef struct s_kdo_neat
