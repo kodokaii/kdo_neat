@@ -1,26 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   kdo_link.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/13 21:19:03 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/13 21:12:56 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
 
-int	main(int argc, char *argv[])
-{
-	if (1 < argc)
-	{
-		while (1)
-		{
-			usleep(100);
-			printf("%d\n", ft_rand());
-		}
-	}
-	return (0);
-}
+t_kdo_link	kdo_get_link

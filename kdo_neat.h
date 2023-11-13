@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/13 14:02:00 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:38:30 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,54 @@ typedef struct s_kdo_genome
 	t_bst	*node_sort;
 	t_uint	node_count;
 	t_uint	link_count;
-	t_uint	spacies;
 	float	fitness;
 	t_uint	id;
 }	t_kdo_genome;
 
+typedef struct s_kdo_genome_buf
+{
+	t_buf	link;
+	t_buf	node;
+}	t_kdo_genome_buf;
+
+typedef struct s_kdo_spacies
+{
+	t_list	*genome;
+	t_uint	genome_count;
+	t_uint	no_progress_count;
+	float	fitness_max;
+	float	fitness_avg;
+}	t_kdo_spacies;
+
 typedef struct s_kdo_population
 {
-	t_buf			*all_link;
-	t_buf			*all_node;
-	t_kdo_genome	all_genome[KDO_POPULATION_COUNT];
-	t_buf			*old_link;
-	t_buf			*old_node;
-	t_kdo_genome	old_genome[KDO_POPULATION_COUNT];
-	t_buf			*best_link;
-	t_buf			*best_node;
-	t_kdo_genome	best_genome;
-	t_uint			generation_count;
-	t_uint			spacies_count;
+	t_kdo_genome		genome[KDO_POPULATION_COUNT];
+	t_kdo_genome		old_genome[KDO_POPULATION_COUNT];
+	t_kdo_genome_buf	genome_buf;
+	t_kdo_genome_buf	old_genome_buf;
+	t_buf				spacies;
+	t_uint				spacies_count;
+	t_uint				generation_count;
 }	t_kdo_population;
+
+typedef struct s_kdo_neat_params
+{
+	float	excess_coef;	
+	float	disjoint_coef;
+	float	weight_coef;
+	float	diff_limit;
+	float	diff_modifer;
+	float	drop_off_age;
+	float	survival_limit;
+}	t_kdo_neat_params;
+
+typedef struct s_kdo_neat
+{
+	t_kdo_population	pop;
+	t_kdo_neat_params	params;
+	t_kdo_genome		best_genome;
+	t_kdo_genome_buf	best_genome_buf;
+}	t_kdo_neat;
 
 float	kdo_identity(float in);
 float	kdo_step(float in);
