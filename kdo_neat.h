@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/13 23:47:53 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:35:06 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,11 @@
 
 # include "libft/libft.h"
 
-# ifndef KDO_POPULATION_COUNT
-#  define KDO_POPULATION_COUNT 100
-# endif
-
-# ifndef KDO_INPUT_COUNT
-#  define KDO_INPUT_COUNT 2
-# endif
-
-# ifndef KDO_OUTPUT_COUNT
-#  define KDO_OUTPUT_COUNT 2
-# endif
-
 struct			s_kdo_link;
 struct			s_kdo_node;
+struct			s_kdo_neat;
 typedef float	(*t_kdo_activation_func)(float in);
+typedef float	(*t_kdo_fitness_func)(struct s_kdo_neat, void *);
 
 typedef enum e_node_type
 {
@@ -51,7 +41,7 @@ typedef struct s_kdo_node
 	t_uint				link_count;
 	float				input;
 	float				bias;
-	t_uint				activation_func;
+	t_uint				activation_index;
 	t_uint				layer;
 	t_node_type			type;
 	t_uint				id;
@@ -59,8 +49,7 @@ typedef struct s_kdo_node
 
 typedef struct s_kdo_genome
 {
-	t_list	*node_list;
-	t_bst	*node_sort;
+	t_list	*node;
 	t_uint	node_count;
 	t_uint	link_count;
 	float	fitness;
@@ -86,45 +75,85 @@ typedef struct s_kdo_spacies
 
 typedef struct s_kdo_population
 {
-	t_kdo_genome		genome[KDO_POPULATION_COUNT];
-	t_kdo_genome		old_genome[KDO_POPULATION_COUNT];
 	t_kdo_genome_buf	genome_buf;
-	t_kdo_genome_buf	old_genome_buf;
-	t_buf				spacies;
+	t_kdo_genome		*genome;
+	t_kdo_spacies		*spacies;
+	t_uint				genome_count;
 	t_uint				spacies_count;
-	t_uint				generation_count;
 }	t_kdo_population;
 
 typedef struct s_kdo_neat_params
 {
-	float	excess_coef;	
-	float	disjoint_coef;
-	float	weight_coef;
-	float	diff_limit;
-	float	diff_modifer;
-	float	drop_off_age;
-	float	survival_limit;
-	float	mutate_link;
-	float	mutate_weight_shift;
-	float	mutate_weight_random;
-	float	mutate_weight_toggle;
-	float	mutate_node;
-	float	mutate_bias;
-	float	mutate_function;
+	float					excess_coef;	
+	float					disjoint_coef;
+	float					weight_coef;
+	float					diff_limit;
+	float					diff_modifer;
+	float					drop_off_age;
+	float					survival_limit;
+	float					mutate_link_prob;
+	float					weight_shift_prob;
+	float					weight_random_prob;
+	float					link_toggle_prob;
+	float					link_add_prob;
+	float					mutate_node_prob;
+	float					bias_shift_prob;
+	float					function_change_prob;
+	float					node_add_prob;
 }	t_kdo_neat_params;
 
 typedef struct s_kdo_neat
 {
-	t_kdo_population	pop;
-	t_kdo_neat_params	params;
-	t_kdo_genome		best_genome;
-	t_kdo_genome_buf	best_genome_buf;
+	t_kdo_population		population;
+	t_kdo_population		old_population;
+	t_kdo_neat_params		params;
+	float					*input;
+	float					*output;
+	t_uint					input_count;
+	t_uint					output_count;
+	t_kdo_fitness_func		fitness_func;
+	t_kdo_activation_func	*activation_func;
+	t_uint					activation_func_count;
+	t_uint					generation_count;
+	t_uint					genome_being;
 }	t_kdo_neat;
 
-float	kdo_identity(float in);
-float	kdo_step(float in);
-float	kdo_relu(float in);
-float	kdo_softsign(float in);
-float	kdo_sigmoid(float in);
+t_kdo_link	*kdo_get_link(t_kdo_neat *nn, t_kdo_node *to);
+void		kdo_mutate_link(t_kdo_neat *nn, t_kdo_link *link);
+void		kdo_feed_forward_link(t_kdo_link *link, float input);
+void		kdo_add_link(t_kdo_neat *nn, t_kdo_node *node, t_kdo_link *link);
+
+t_kdo_node	*kdo_get_node(t_kdo_neat *nn,
+				t_uint layer, t_node_type type, t_uint id);
+void		kdo_mutate_node(t_kdo_neat *nn, t_kdo_node *node);
+void		kdo_feed_forward_node(t_kdo_neat *nn, t_kdo_node *node);
+t_bool		kdo_node_is_link(t_kdo_node *node_from, t_kdo_node *node_to);
+void		kdo_add_node(t_kdo_neat *nn, t_kdo_genome *genome, t_kdo_node *node,
+				int (*cmp)());
+
+void		kdo_add_random_link(t_kdo_neat *nn, t_kdo_genome *genome);
+void		kdo_add_random_node(t_kdo_neat *nn, t_kdo_genome *genome);
+
+t_list		*kdo_get_free_node_from(t_kdo_genome *genome);
+t_list		*kdo_get_free_node_to(t_kdo_genome *genome, t_list *node_from);
+t_list		*kdo_get_linked_node(t_kdo_genome *genome);
+t_list		*kdo_get_random_link(t_kdo_node *node);
+
+int			kdo_link_cmp(t_kdo_link *link1, t_kdo_link *link2);
+int			kdo_node_layer_cmp(t_kdo_node *node1, t_kdo_node *node2);
+int			kdo_node_id_cmp(t_kdo_node *node1, t_kdo_node *node2);
+int			kdo_genome_cmp(t_kdo_genome *genome1, t_kdo_genome *genome2);
+
+float		kdo_identity(float in);
+float		kdo_step(float in);
+float		kdo_relu(float in);
+float		kdo_softsign(float in);
+float		kdo_sigmoid(float in);
+
+void		kdo_free_node(t_kdo_node *node);
+void		kdo_free_genome(t_kdo_genome *genome);
+void		kdo_free_spacies(t_kdo_spacies *spacies);
+void		kdo_free_population(t_kdo_population *population);
+void		kdo_neat_cleanup(t_kdo_neat *nn, char *str_error, int error);
 
 #endif

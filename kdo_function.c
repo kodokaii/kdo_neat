@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/13 03:07:11 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:46:24 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ float	kdo_softsign(float in)
 
 float	kdo_sigmoid(float in)
 {
-	return (1 / (1 + ft_expf(-in)));
+	return (1 / (1 + ft_expf(-4.9 * in)));
 }
