@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/16 13:35:06 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/17 00:48:38 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_kdo_node
 	float				input;
 	float				bias;
 	t_uint				activation_index;
-	t_uint				layer;
+	double				layer;
 	t_node_type			type;
 	t_uint				id;
 }	t_kdo_node;
@@ -133,11 +133,13 @@ void		kdo_add_node(t_kdo_neat *nn, t_kdo_genome *genome, t_kdo_node *node,
 
 void		kdo_add_random_link(t_kdo_neat *nn, t_kdo_genome *genome);
 void		kdo_add_random_node(t_kdo_neat *nn, t_kdo_genome *genome);
+void		kdo_mutate(t_kdo_neat *nn, t_kdo_genome *genome);
 
-t_list		*kdo_get_free_node_from(t_kdo_genome *genome);
-t_list		*kdo_get_free_node_to(t_kdo_genome *genome, t_list *node_from);
-t_list		*kdo_get_linked_node(t_kdo_genome *genome);
 t_list		*kdo_get_random_link(t_kdo_node *node);
+t_list		*kdo_get_random_node(t_kdo_genome *genome);
+t_list		*kdo_get_node_free_link(t_kdo_genome *genome);
+t_list		*kdo_get_node_no_link_yet(t_list *node_from);
+t_list		*kdo_get_linked_node(t_kdo_genome *genome);
 
 int			kdo_link_cmp(t_kdo_link *link1, t_kdo_link *link2);
 int			kdo_node_layer_cmp(t_kdo_node *node1, t_kdo_node *node2);
