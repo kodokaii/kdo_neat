@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/17 00:48:18 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/17 13:27:28 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,16 @@ void	kdo_add_random_node(t_kdo_neat *nn, t_kdo_genome *genome)
 		new_link = kdo_get_link(nn, ((t_kdo_link *)link->content)->to);
 		new_link->weight = 1.0f;
 		new_node = kdo_get_node(nn,
-				(((t_kdo_node *)node_from->content)->layer
-					+ ((t_kdo_link *)link->content)->to->layer) / 2.0L,
+				((t_kdo_node *)node_from->content)->layer + 1,
 				HIDDEN_NODE, genome->node_count);
 		((t_kdo_link *)link->content)->to = new_node;
 		kdo_add_link(nn, new_node, new_link);
-		kdo_add_node(nn, genome, new_node, &kdo_node_layer_cmp);
+		kdo_add_node(nn, genome, new_node);
 		genome->link_count++;
 	}
 }
 
-void	kdo_mutate(t_kdo_neat *nn, t_kdo_genome *genome)
+void	kdo_mutate_genome(t_kdo_neat *nn, t_kdo_genome *genome)
 {
 	if (ft_randf() <= nn->params.mutate_link_prob)
 		kdo_mutate_link(nn,
@@ -63,4 +62,18 @@ void	kdo_mutate(t_kdo_neat *nn, t_kdo_genome *genome)
 		kdo_mutate_node(nn, kdo_get_random_node(genome)->content);
 	if (ft_randf() <= nn->params.node_add_prob)
 		kdo_add_random_node(nn, genome);
+}
+
+void	kdo_mutate_population(t_kdo_neat *nn, t_kdo_population *population)
+{
+	t_uint	i;
+
+	i = 0;
+	while (i < population->genome_count)
+		kdo_mutate_genome(nn, &population->genome[i++]);
+}
+
+void	kdo_mutate(t_kdo_neat *nn)
+{
+	kdo_mutate_population(nn, &nn->population);
 }
