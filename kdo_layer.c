@@ -25,7 +25,7 @@ void	kdo_layer_propagation_node(t_kdo_node *node)
 	current = node->link;
 	while (current)
 	{
-		kdo_layer_propagation_link(current->content, node->layer);
+		kdo_layer_propagation_link(current->data, node->layer);
 		current = current->next;
 	}
 }

@@ -57,7 +57,7 @@ void	kdo_feed_forward_node(t_kdo_neat *nn, t_kdo_node *node)
 	current = node->link;
 	while (current)
 	{
-		kdo_feed_forward_link(current->content, output);
+		kdo_feed_forward_link(current->data, output);
 		current = current->next;
 	}
 	node->input = 0;
@@ -70,7 +70,7 @@ t_bool	kdo_node_is_link(t_kdo_node *node_from, t_kdo_node *node_to)
 	current_link = node_from->link;
 	while (current_link)
 	{
-		if (((t_kdo_link *)current_link->content)->to == node_to)
+		if (((t_kdo_link *)current_link->data)->to == node_to)
 			return (FT_TRUE);
 		current_link = current_link->next;
 	}
