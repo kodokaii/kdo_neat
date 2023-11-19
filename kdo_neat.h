@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/18 13:40:20 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/19 23:39:01 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ typedef struct s_kdo_neat_params
 	float					node_coef;
 	float					weight_coef;
 	float					bias_coef;
-	float					diff_limit;
-	float					diff_modifer;
+	float					compatibility_limit;
+	float					compatibility_modifer;
 	float					drop_off_age;
 	float					survival_limit;
 	float					mutate_link_prob;
@@ -127,8 +127,10 @@ typedef struct s_kdo_neat
 	t_kdo_fitness_func		fitness_func;
 	t_kdo_activation_func	*activation_func;
 	t_uint					activation_func_count;
+	t_uint					spacies_target_count;
 	t_uint					generation_count;
 	t_uint					genome_being;
+	t_uint					max_genes_count;
 }	t_kdo_neat;
 
 t_kdo_link	*kdo_get_link(t_kdo_neat *nn, t_kdo_node *to);
@@ -150,6 +152,9 @@ void		kdo_add_random_node(t_kdo_neat *nn, t_kdo_genome *genome);
 void		kdo_mutate_genome(t_kdo_neat *nn, t_kdo_genome *genome);
 void		kdo_mutate_population(t_kdo_neat *nn, t_kdo_population *population);
 void		kdo_mutate(t_kdo_neat *nn);
+
+float		kdo_compatibility_score(t_kdo_neat *nn,
+				t_kdo_genome *genome1, t_kdo_genome *genome2);
 
 void		kdo_layer_propagation_link(t_kdo_link *link, t_uint layer);
 void		kdo_layer_propagation_node(t_kdo_node *node);
