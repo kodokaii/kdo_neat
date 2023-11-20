@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/15 20:03:41 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/20 19:09:12 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	kdo_free_genome(t_kdo_genome *genome)
 
 void	kdo_free_spacies(t_kdo_spacies *spacies)
 {
-	ft_lstclear(&spacies->genome, &kdo_free_genome);
+	ft_lstclear(&spacies->genome, NULL);
 	spacies->genome_count = 0;
 }
 
@@ -38,10 +38,12 @@ void	kdo_free_population(t_kdo_population *population)
 	i = 0;
 	while (i < population->genome_count)
 		kdo_free_genome(population->genome + i++);
+	free(population->genome);
 	population->genome_count = 0;
 	i = 0;
 	while (i < population->spacies_count)
-		kdo_free_genome(population->genome + i++);
+		kdo_free_spacies(population->spacies + i++);
+	free(population->spacies);
 	population->spacies_count = 0;
 	ft_buf_free(&population->genome_buf.link);
 	population->genome_buf.link_count = 0;
