@@ -6,26 +6,37 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/20 20:25:39 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/21 23:31:52 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
 
-static void	kdo_push_to_spacies(t_kdo_neat *nn,
-		t_kdo_spacies *spacies, t_kdo_genome *genome)
+static void	kdo_get_reclassify(t_kdo_neat *nn,
+		t_kdo_spacies *spacies, t_list **reclassify)
 {
-	t_list	*genome_element;
+	t_list	*current;
+	t_list	*to_reclassify;
+	float	score;
 
-	genome_element = ft_lstnew(genome);
-	if (!genome_element)
-		kdo_neat_cleanup(nn, ERRLOC, EXIT_FAILURE);
-	spacies->fitness_max = ft_max_double(spacies->fitness_max, genome->fitness);
-	spacies->fitness_avg
-		= (spacies->fitness_avg * spacies->genome_count + genome->fitness)
-		/ (spacies->genome_count + 1);
-	ft_lstadd_back(&spacies->genome, genome_element);
-	spacies->genome_count++;
+	if (1 < spacies->genome_count)
+	{
+		current = spacies->genome;
+		while (current->next)
+		{
+			score = kdo_compatibility_score(nn,
+					spacies->genome->data, current->next->data);
+			if (nn->params.compatibility_limit < score)
+			{
+				to_reclassify = current->next;
+				current->next = current->next->next;
+				ft_lstadd_front(reclassify, to_reclassify);
+				spacies->genome_count--;
+			}
+			else
+				current = current->next;
+		}
+	}
 }
 
 static t_uint	kdo_find_spacies(t_kdo_neat *nn, t_kdo_genome *genome)
@@ -56,35 +67,33 @@ static t_uint	kdo_find_spacies(t_kdo_neat *nn, t_kdo_genome *genome)
 	return (best_index);
 }
 
-static void	kdo_get_reclassify(t_kdo_neat *nn,
-		t_kdo_spacies *spacies, t_list **reclassify)
+static void	kdo_update_one_spacies(t_kdo_spacies *spacies)
 {
 	t_list	*current;
-	t_list	*to_reclassify;
-	float	score;
+	float	current_fitness;
+	float	fitness_sum;
+	float	fitness_max;
 
-	if (1 < spacies->genome_count)
+	fitness_max = 0;
+	fitness_sum = 0;
+	current = spacies->genome;
+	while (current)
 	{
-		current = spacies->genome;
-		while (current->next)
-		{
-			score = kdo_compatibility_score(nn,
-					spacies->genome->data, current->next->data);
-			if (nn->params.compatibility_limit < score)
-			{
-				to_reclassify = current->next;
-				current->next = current->next->next;
-				ft_lstadd_front(reclassify, to_reclassify);
-				spacies->genome_count--;
-			}
-			else
-				current = current->next;
-		}
+		current_fitness = ((t_kdo_genome *)current->data)->fitness;
+		fitness_sum += current_fitness;
+		fitness_max = ft_max_double(fitness_max, current_fitness);
+		current = current->next;
 	}
+	spacies->no_progress_count++;
+	if (spacies->fitness_max < fitness_max)
+		spacies->no_progress_count = 0;
+	spacies->fitness_avg = fitness_sum / spacies->genome_count;
+	spacies->fitness_max = fitness_max;
 }
 
 void	kdo_spacies(t_kdo_neat *nn)
 {
+	float	modifier_coef;
 	t_list	*reclassify;
 	t_list	*current;
 	t_uint	i;
@@ -100,5 +109,11 @@ void	kdo_spacies(t_kdo_neat *nn)
 		kdo_push_to_spacies(nn, nn->population.spacies + i, current->data);
 		current = current->next;
 	}
+	while (i < nn->population.spacies_count)
+		kdo_update_one_spacies(nn->population.spacies + i++);
+	modifier_coef = (float)nn->spacies_target_count
+		/ (float)kdo_spacies_fill_count(nn) - 1;
+	nn->params.compatibility_limit
+		-= nn->params.compatibility_modifer * modifier_coef;
 	ft_lstclear(&reclassify, NULL);
 }

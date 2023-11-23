@@ -1,42 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kdo_cmp.c                                          :+:      :+:    :+:   */
+/*   kdo_spacies_utlis.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/22 14:10:33 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:54:21 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
 
-int	kdo_link_layer_cmp(t_kdo_link *link1, t_kdo_link *link2)
+void	kdo_reset_spacies(t_kdo_spacies *spacies)
 {
-	return (link1->to->layer - link2->to->layer);
+	kdo_free_spacies(spacies);
+	spacies->fitness_max = 0;
+	spacies->fitness_avg = 0;
 }
 
-int	kdo_link_id_cmp(t_kdo_link *link1, t_kdo_link *link2)
+void	kdo_push_to_spacies(t_kdo_neat *nn,
+		t_kdo_spacies *spacies, t_kdo_genome *genome)
 {
-	return (link1->to->id - link2->to->id);
+	t_list	*genome_element;
+
+	genome_element = ft_lstnew(genome);
+	if (!genome_element)
+		kdo_neat_cleanup(nn, ERRLOC, EXIT_FAILURE);
+	ft_lstadd_back(&spacies->genome, genome_element);
+	spacies->genome_count++;
 }
 
-int	kdo_node_layer_cmp(t_kdo_node *node1, t_kdo_node *node2)
+t_uint	kdo_spacies_fill_count(t_kdo_neat *nn)
 {
-	return (node1->layer - node2->layer);
-}
+	t_uint	i;
 
-int	kdo_node_id_cmp(t_kdo_node *node1, t_kdo_node *node2)
-{
-	return (node1->id - node2->id);
-}
-
-int	kdo_genome_cmp(t_kdo_genome *genome1, t_kdo_genome *genome2)
-{
-	if (genome1->fitness < genome2->fitness)
-		return (-1);
-	if (genome2->fitness < genome1->fitness)
-		return (1);
-	return (0);
+	i = 0;
+	while (i < nn->population.spacies_count
+		&& nn->population.spacies[i].genome_count)
+		i++;
+	return (i);
 }

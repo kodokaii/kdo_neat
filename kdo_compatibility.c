@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/19 23:26:48 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/23 22:40:40 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	kdo_compatibility_node(t_kdo_compatibility *comp,
 	current2 = node2->link;
 	while (current1 && current2)
 	{
-		cmp = kdo_link_cmp(current1->data, current2->data);
+		cmp = kdo_link_id_cmp(current1->data, current2->data);
 		if (cmp <= 0)
 			current1 = current1->next;
 		if (0 <= cmp)
@@ -56,6 +56,8 @@ static void	kdo_compatibility_genome(t_kdo_compatibility *comp,
 
 	current1 = genome1->node;
 	current2 = genome2->node;
+	ft_lstsort(&genome1->node, kdo_node_id_cmp);
+	ft_lstsort(&genome2->node, kdo_node_id_cmp);
 	while (current1 && current2)
 	{
 		cmp = kdo_node_id_cmp(current1->data, current2->data);
