@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/23 22:55:07 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:39:46 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,29 @@ void	kdo_feed_forward_node(t_kdo_neat *nn, t_kdo_node *node)
 	node->input = 0;
 }
 
-void	kdo_crossover_node(t_kdo_node *node1, t_kdo_node *node2,
-			t_kdo_node *node_child)
+void	kdo_crossover_node(t_kdo_node *node1, t_kdo_node *node2)
 {
-	
+	t_list	*current1;
+	t_list	*current2;
+	int		cmp;
+
+	current1 = node1->link;
+	current2 = node2->link;
+	while (current1 && current2)
+	{
+		cmp = kdo_link_id_cmp(current1->data, current2->data);
+		if (cmp == 0)
+			kdo_crossover_link(current1->data, current2->data);
+		if (cmp <= 0)
+			current1 = current1->next;
+		if (0 <= cmp)
+			current2 = current2->next;
+	}
+	if (ft_randf() < 0.5)
+	{
+		node1->bias = node2->bias;
+		node1->activation_index = node2->activation_index;
+	}
 }
 
 void	kdo_mutate_node(t_kdo_neat *nn, t_kdo_node *node)

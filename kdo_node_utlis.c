@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/23 22:55:30 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/24 20:55:07 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ t_bool	kdo_node_is_link(t_kdo_node *node_from, t_kdo_node *node_to)
 	return (FT_FALSE);
 }
 
-void	kdo_add_node(t_kdo_neat *nn, t_kdo_genome *genome, t_kdo_node *node)
+void	kdo_add_node(t_kdo_neat *nn,
+		t_kdo_genome *genome_from, t_kdo_node *node)
 {
 	t_list	*node_element;
 
 	node_element = ft_lstnew(node);
 	if (!node_element)
 		kdo_neat_cleanup(nn, ERRLOC, EXIT_FAILURE);
-	ft_lstadd_front(&genome->node, node_element);
-	genome->node_count++;
+	ft_lstsort_merge(&genome_from->node, node_element, kdo_node_id_cmp);
+	genome_from->node_count++;
 }

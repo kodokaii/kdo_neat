@@ -6,13 +6,13 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/21 23:31:52 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:13:57 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
 
-static void	kdo_get_reclassify(t_kdo_neat *nn,
+static void	_get_reclassify(t_kdo_neat *nn,
 		t_kdo_spacies *spacies, t_list **reclassify)
 {
 	t_list	*current;
@@ -39,7 +39,7 @@ static void	kdo_get_reclassify(t_kdo_neat *nn,
 	}
 }
 
-static t_uint	kdo_find_spacies(t_kdo_neat *nn, t_kdo_genome *genome)
+static t_uint	_find_spacies(t_kdo_neat *nn, t_kdo_genome *genome)
 {
 	t_uint	spacies_index;
 	float	spacies_score;
@@ -67,7 +67,7 @@ static t_uint	kdo_find_spacies(t_kdo_neat *nn, t_kdo_genome *genome)
 	return (best_index);
 }
 
-static void	kdo_update_one_spacies(t_kdo_spacies *spacies)
+static void	_update_spacies(t_kdo_spacies *spacies)
 {
 	t_list	*current;
 	float	current_fitness;
@@ -101,16 +101,16 @@ void	kdo_spacies(t_kdo_neat *nn)
 	i = 0;
 	reclassify = NULL;
 	while (i < nn->population.spacies_count)
-		kdo_get_reclassify(nn, nn->population.spacies + i++, &reclassify);
+		_get_reclassify(nn, nn->population.spacies + i++, &reclassify);
 	current = reclassify;
 	while (current)
 	{
-		i = kdo_find_spacies(nn, current->data);
+		i = _find_spacies(nn, current->data);
 		kdo_push_to_spacies(nn, nn->population.spacies + i, current->data);
 		current = current->next;
 	}
 	while (i < nn->population.spacies_count)
-		kdo_update_one_spacies(nn->population.spacies + i++);
+		_update_spacies(nn->population.spacies + i++);
 	modifier_coef = (float)nn->spacies_target_count
 		/ (float)kdo_spacies_fill_count(nn) - 1;
 	nn->params.compatibility_limit

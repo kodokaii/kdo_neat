@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/23 22:54:21 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:38:33 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct s_kdo_neat
 
 t_kdo_link	*kdo_get_link(t_kdo_neat *nn, t_kdo_node *to);
 void		kdo_mutate_link(t_kdo_neat *nn, t_kdo_link *link);
+void		kdo_crossover_link(t_kdo_link *link1, t_kdo_link *link2);
 void		kdo_feed_forward_link(t_kdo_link *link, float input);
 void		kdo_add_link(t_kdo_neat *nn,
 				t_kdo_node *node_from, t_kdo_link *link);
@@ -142,18 +143,17 @@ void		kdo_add_link(t_kdo_neat *nn,
 t_kdo_node	*kdo_get_node(t_kdo_neat *nn,
 				t_uint layer, t_node_type type, t_uint id);
 void		kdo_mutate_node(t_kdo_neat *nn, t_kdo_node *node);
+void		kdo_crossover_node(t_kdo_node *node1, t_kdo_node *node2);
 void		kdo_feed_forward_node(t_kdo_neat *nn, t_kdo_node *node);
 t_bool		kdo_node_is_link(t_kdo_node *node_from, t_kdo_node *node_to);
 void		kdo_add_node(t_kdo_neat *nn,
-				t_kdo_genome *genome, t_kdo_node *node);
+				t_kdo_genome *genome_from, t_kdo_node *node);
 
-void		kdo_reset_genome(t_kdo_genome *genome);
 void		kdo_mutate_genome(t_kdo_neat *nn, t_kdo_genome *genome);
 void		kdo_feed_forward_genome(t_kdo_neat *nn, t_kdo_genome *genome);
 
-void		kdo_add_random_link(t_kdo_neat *nn, t_kdo_genome *genome);
-void		kdo_add_random_node(t_kdo_neat *nn, t_kdo_genome *genome);
-void		kdo_mutate(t_kdo_neat *nn);
+void		kdo_dup_genome(t_kdo_neat *nn,
+				t_kdo_genome *genome_dst, t_kdo_genome *genome_src);
 
 float		kdo_compatibility_score(t_kdo_neat *nn,
 				t_kdo_genome *genome1, t_kdo_genome *genome2);
@@ -163,14 +163,17 @@ void		kdo_push_to_spacies(t_kdo_neat *nn,
 t_uint		kdo_spacies_fill_count(t_kdo_neat *nn);
 void		kdo_spacies(t_kdo_neat *nn);
 
-void		kdo_layer_propagation_link(t_kdo_link *link, t_uint layer);
-void		kdo_layer_propagation_node(t_kdo_node *node);
-
 t_list		*kdo_get_random_link(t_kdo_node *node);
 t_list		*kdo_get_random_node(t_kdo_genome *genome);
 t_list		*kdo_get_node_free_link(t_kdo_genome *genome);
 t_list		*kdo_get_no_linked_node(t_list *node_from);
 t_list		*kdo_get_linked_node(t_kdo_genome *genome);
+void		kdo_add_random_link(t_kdo_neat *nn, t_kdo_genome *genome);
+void		kdo_add_random_node(t_kdo_neat *nn, t_kdo_genome *genome);
+void		kdo_mutate(t_kdo_neat *nn);
+
+void		kdo_layer_propagation_link(t_kdo_link *link, t_uint layer);
+void		kdo_layer_propagation_node(t_kdo_node *node);
 
 int			kdo_link_layer_cmp(t_kdo_link *link1, t_kdo_link *link2);
 int			kdo_link_id_cmp(t_kdo_link *link1, t_kdo_link *link2);
