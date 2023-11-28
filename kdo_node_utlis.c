@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/24 20:55:07 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:13:42 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,24 @@ t_kdo_node	*kdo_get_node(t_kdo_neat *nn,
 	return (node);
 }
 
+void	kdo_node_init(t_kdo_neat *nn,
+			t_kdo_genome *genome_from, t_kdo_node *node)
+{
+	t_list	*current;
+
+	if (node->type == INPUT_NODE)
+	{
+		current = genome_from->node;
+		while (current)
+		{
+			if (((t_kdo_node *)current->data)->type == OUTPUT_NODE)
+				kdo_add_link(nn, genome_from, node,
+					kdo_get_link(nn, current->data));
+			current = current->next;
+		}
+	}
+}
+
 t_bool	kdo_node_is_link(t_kdo_node *node_from, t_kdo_node *node_to)
 {
 	t_list	*current_link;
@@ -59,4 +77,6 @@ void	kdo_add_node(t_kdo_neat *nn,
 		kdo_neat_cleanup(nn, ERRLOC, EXIT_FAILURE);
 	ft_lstsort_merge(&genome_from->node, node_element, kdo_node_id_cmp);
 	genome_from->node_count++;
+	nn->max_node_count
+		= ft_max_uint(nn->max_node_count, genome_from->node_count);
 }

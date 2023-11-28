@@ -6,114 +6,69 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/24 16:13:57 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:32:52 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
 
-static void	_get_reclassify(t_kdo_neat *nn,
-		t_kdo_spacies *spacies, t_list **reclassify)
+float	_fitness_sum(t_kdo_neat *nn, t_kdo_spacies *spacies)
 {
 	t_list	*current;
-	t_list	*to_reclassify;
-	float	score;
-
-	if (1 < spacies->genome_count)
-	{
-		current = spacies->genome;
-		while (current->next)
-		{
-			score = kdo_compatibility_score(nn,
-					spacies->genome->data, current->next->data);
-			if (nn->params.compatibility_limit < score)
-			{
-				to_reclassify = current->next;
-				current->next = current->next->next;
-				ft_lstadd_front(reclassify, to_reclassify);
-				spacies->genome_count--;
-			}
-			else
-				current = current->next;
-		}
-	}
-}
-
-static t_uint	_find_spacies(t_kdo_neat *nn, t_kdo_genome *genome)
-{
-	t_uint	spacies_index;
-	float	spacies_score;
-	t_uint	best_index;
-	float	best_score;
-
-	spacies_index = 0;
-	best_index = 0;
-	best_score = FLT_MAX;
-	while (spacies_index < nn->population.spacies_count
-		&& nn->population.spacies[spacies_index].genome_count)
-	{
-		spacies_score = kdo_compatibility_score(nn, genome,
-				nn->population.spacies[spacies_index].genome->data);
-		if (spacies_score < best_score)
-		{
-			best_score = spacies_score;
-			best_index = spacies_index;
-		}
-		spacies_index++;
-	}
-	if (nn->params.compatibility_limit < best_score
-		&& spacies_index != nn->population.spacies_count)
-		return (spacies_index);
-	return (best_index);
-}
-
-static void	_update_spacies(t_kdo_spacies *spacies)
-{
-	t_list	*current;
-	float	current_fitness;
+	t_uint	parent_count;
 	float	fitness_sum;
-	float	fitness_max;
 
-	fitness_max = 0;
-	fitness_sum = 0;
+	fitness_sum = 0.0f;
+	parent_count = (float)spacies->genome_count
+		* nn->params.survival_limit + 1.0f;
 	current = spacies->genome;
-	while (current)
+	while (current && parent_count--)
 	{
-		current_fitness = ((t_kdo_genome *)current->data)->fitness;
-		fitness_sum += current_fitness;
-		fitness_max = ft_max_double(fitness_max, current_fitness);
+		fitness_sum += ((t_kdo_genome *)current->data)->fitness;
 		current = current->next;
 	}
-	spacies->no_progress_count++;
-	if (spacies->fitness_max < fitness_max)
-		spacies->no_progress_count = 0;
-	spacies->fitness_avg = fitness_sum / spacies->genome_count;
-	spacies->fitness_max = fitness_max;
+	return (fitness_sum);
 }
 
-void	kdo_spacies(t_kdo_neat *nn)
+t_kdo_genome	*_get_parent(t_kdo_spacies *spacies, float fitness_sum)
 {
-	float	modifier_coef;
-	t_list	*reclassify;
 	t_list	*current;
-	t_uint	i;
+	float	random_fitness;
+	float	current_fitness_sum;
 
-	i = 0;
-	reclassify = NULL;
-	while (i < nn->population.spacies_count)
-		_get_reclassify(nn, nn->population.spacies + i++, &reclassify);
-	current = reclassify;
-	while (current)
+	random_fitness = fitness_sum * ft_randf();
+	current = spacies->genome;
+	current_fitness_sum = ((t_kdo_genome *)current->data)->fitness;
+	while (current_fitness_sum < random_fitness)
 	{
-		i = _find_spacies(nn, current->data);
-		kdo_push_to_spacies(nn, nn->population.spacies + i, current->data);
 		current = current->next;
+		current_fitness_sum += ((t_kdo_genome *)current->data)->fitness;
 	}
-	while (i < nn->population.spacies_count)
-		_update_spacies(nn->population.spacies + i++);
-	modifier_coef = (float)nn->spacies_target_count
-		/ (float)kdo_spacies_fill_count(nn) - 1;
-	nn->params.compatibility_limit
-		-= nn->params.compatibility_modifer * modifier_coef;
-	ft_lstclear(&reclassify, NULL);
+	return (current->data);
+}
+
+void	kdo_crossover_spacies(t_kdo_neat *nn,
+			t_kdo_spacies *spacies_dst, t_kdo_spacies *spacies_src)
+{
+	t_uint			child_count;
+	t_kdo_genome	*parent1;
+	t_kdo_genome	*parent2;
+	float			fitness_sum;
+
+	child_count = (t_uint)
+		((spacies_src->fitness_avg / nn->population.fitness_avg)
+			* nn->params.genome_target_count + 1.0f);
+	if (nn->params.genome_target_count
+		< nn->population.genome_count + child_count)
+		child_count
+			= nn->params.genome_target_count - nn->population.genome_count;
+	fitness_sum = _fitness_sum(nn, spacies_src);
+	while (child_count--)
+	{
+		parent1 = kdo_get_genome(nn);
+		kdo_dup_genome(nn, parent1, _get_parent(spacies_src, fitness_sum));
+		parent2 = _get_parent(spacies_src, fitness_sum);
+		kdo_crossover_genome(parent1, parent2);
+		kdo_push_to_spacies(nn, spacies_dst, parent1);
+	}
 }

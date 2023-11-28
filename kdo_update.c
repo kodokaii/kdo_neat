@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kdo_crossover.c                                    :+:      :+:    :+:   */
+/*   kdo_update.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 12:43:19 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/27 14:39:44 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
 
-void	kdo_crossover(t_kdo_neat *nn)
+void	kdo_update_fitness(t_kdo_neat *nn)
 {
-	t_kdo_population	tmp;
-	t_uint				i;
+	float	fitness_sum;
+	float	fitness_max;
+	t_uint	i;
 
 	i = 0;
-	tmp = nn->population;
-	nn->population = nn->old_population;
-	nn->old_population = tmp;
-	kdo_reset_population(&nn->population);
+	fitness_sum = 0.0f;
+	fitness_max = 0.0f;
 	while (i < nn->population.spacies_count)
 	{
-		kdo_crossover_spacies(nn,
-			nn->population.spacies + i, nn->old_population.spacies + i);
+		kdo_update_spacies(nn->population.spacies + i);
+		fitness_sum += nn->population.spacies[i].fitness_avg;
+		fitness_max
+			= ft_max_double(fitness_max, nn->population.spacies[i].fitness_max);
 		i++;
 	}
+	nn->population.fitness_avg
+		= fitness_sum / (float)nn->population.spacies_count;
+	nn->population.fitness_max = fitness_max;
 }

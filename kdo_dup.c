@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/24 20:54:37 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/28 01:27:24 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static void	_dup_link(t_kdo_neat *nn, t_kdo_genome *genome_dst,
 		link = kdo_get_link(nn, node_to->data);
 		link->weight = ((t_kdo_link *)current->data)->weight;
 		link->enable = ((t_kdo_link *)current->data)->enable;
-		kdo_add_link(nn, node_dst, link);
-		genome_dst->link_count++;
+		kdo_add_link(nn, genome_dst, node_dst, link);
 		current = current->next;
 	}
 }

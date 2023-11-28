@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/24 21:42:43 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/28 12:47:13 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	kdo_feed_forward_genome(t_kdo_neat *nn, t_kdo_genome *genome)
 			((t_kdo_node *)genome->node)->input += nn->input[input_index++];
 		kdo_feed_forward_node(nn, current->data);
 		if (((t_kdo_node *)genome->node)->type == OUTPUT_NODE)
-			nn->output[output_index++] = ((t_kdo_node *)genome->node)->input;
+			nn->output[output_index++] = ((t_kdo_node *)genome->node)->output;
 		current = current->next;
 	}
 }

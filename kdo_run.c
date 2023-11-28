@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kdo_crossover.c                                    :+:      :+:    :+:   */
+/*   kdo_run.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 12:43:19 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:31:03 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
 
-void	kdo_crossover(t_kdo_neat *nn)
+void	kdo_run(t_kdo_neat *nn)
 {
-	t_kdo_population	tmp;
-	t_uint				i;
+	t_uint	i;
 
 	i = 0;
-	tmp = nn->population;
-	nn->population = nn->old_population;
-	nn->old_population = tmp;
-	kdo_reset_population(&nn->population);
-	while (i < nn->population.spacies_count)
+	while (i < nn->population.genome_count)
 	{
-		kdo_crossover_spacies(nn,
-			nn->population.spacies + i, nn->old_population.spacies + i);
+		nn->population.genome[i].fitness
+			= nn->params.fitness_func(nn, i, nn->params.ptr);
 		i++;
 	}
 }

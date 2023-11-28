@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/24 21:39:46 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:30:20 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	kdo_feed_forward_node(t_kdo_neat *nn, t_kdo_node *node)
 {
 	t_list	*current;
 
-	node->output = (nn->activation_func[node->activation_index])
+	node->output = (nn->params.activation_func[node->activation_index])
 		(node->input + node->bias);
 	current = node->link;
 	while (current)
@@ -58,7 +58,7 @@ void	kdo_mutate_node(t_kdo_neat *nn, t_kdo_node *node)
 
 	rng = ft_randf();
 	if (rng <= nn->params.function_change_prob)
-		node->activation_index = ft_rand() % nn->activation_func_count;
+		node->activation_index = ft_rand() % nn->params.activation_func_count;
 	if (rng <= nn->params.weight_random_prob)
 		node->bias = (ft_randf() * 2) - 1;
 	else if (rng <= nn->params.weight_shift_prob)

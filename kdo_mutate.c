@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/23 22:41:31 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/26 23:33:33 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	kdo_add_random_link(t_kdo_neat *nn, t_kdo_genome *genome)
 		node_from = kdo_get_node_free_link(genome);
 		node_to = kdo_get_no_linked_node(node_from);
 		link = kdo_get_link(nn, node_to->data);
-		kdo_add_link(nn, node_from->data, link);
-		genome->link_count++;
+		kdo_add_link(nn, genome, node_from->data, link);
 	}
 }
 
@@ -47,7 +46,7 @@ void	kdo_add_random_node(t_kdo_neat *nn, t_kdo_genome *genome)
 				((t_kdo_node *)node_from->data)->layer + 1,
 				HIDDEN_NODE, genome->node_count);
 		((t_kdo_link *)link->data)->to = new_node;
-		kdo_add_link(nn, new_node, new_link);
+		kdo_add_link(nn, genome, new_node, new_link);
 		kdo_add_node(nn, genome, new_node);
 		genome->link_count++;
 	}

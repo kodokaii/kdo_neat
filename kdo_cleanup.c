@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/24 19:53:37 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:27:06 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ void	kdo_neat_cleanup(t_kdo_neat *nn, char *str_error, int error)
 	kdo_free_population(&nn->old_population);
 	free(nn->input);
 	nn->input = NULL;
-	nn->input_count = 0;
+	nn->params.input_count = 0;
 	free(nn->output);
 	nn->output = NULL;
-	nn->output_count = 0;
+	nn->params.output_count = 0;
 	ft_dprintf(STDERR_FILENO, "neat: %s\n", str_error);
 	exit(error);
 }

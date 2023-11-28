@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/24 21:42:19 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/26 23:34:51 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ float	kdo_compatibility_score(t_kdo_neat *nn,
 		- 2.0f * comp.same_node;
 	comp.diff_weight /= comp.same_link;
 	comp.diff_bias /= comp.same_node;
-	delta = nn->params.link_coef * comp.diff_link / nn->max_genes_count
-		+ nn->params.node_coef * comp.diff_node / nn->max_genes_count
+	delta = nn->params.link_coef * comp.diff_link / nn->max_link_count
+		+ nn->params.node_coef * comp.diff_node / nn->max_node_count
 		+ nn->params.weight_coef * comp.diff_weight
 		+ nn->params.bias_coef * comp.diff_bias;
 	return (delta);
