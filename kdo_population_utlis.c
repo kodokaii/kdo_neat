@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 14:37:25 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/29 12:24:10 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@ void	kdo_reset_population(t_kdo_population *population)
 {
 	t_uint	i;
 
-	population->genome_buf.link.size = 0;
-	population->genome_buf.node.size = 0;
-	population->genome_buf.link_count = 0;
-	population->genome_buf.node_count = 0;
 	i = 0;
 	while (i < population->genome_count)
 		kdo_reset_genome(population->genome + i++);
@@ -48,5 +44,8 @@ void	kdo_population_init(t_kdo_neat *nn, t_kdo_population *population)
 	i = 0;
 	kdo_population_alloc(nn, population);
 	while (i < nn->params.genome_target_count)
+	{
 		kdo_genome_init(nn, population->genome + i++);
+		population->genome_count++;
+	}
 }

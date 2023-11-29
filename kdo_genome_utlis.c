@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 13:28:55 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:45:32 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	kdo_reset_genome(t_kdo_genome *genome)
 {
 	kdo_free_genome(genome);
-	genome->fitness = 0.0f;
+	ft_bzero(genome, sizeof(t_kdo_genome));
 }
 
 t_kdo_genome	*kdo_get_genome(t_kdo_neat *nn)

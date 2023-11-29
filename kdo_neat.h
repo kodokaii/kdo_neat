@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 14:38:46 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/29 23:37:33 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ struct			s_kdo_link;
 struct			s_kdo_node;
 struct			s_kdo_neat;
 typedef float	(*t_kdo_activation_func)(float in);
-typedef float	(*t_kdo_fitness_func)(struct s_kdo_neat *, t_uint genome_being,
-				void *);
+typedef float	(*t_kdo_fitness_func)(struct s_kdo_neat *, t_uint, void *);
 
 typedef enum e_node_type
 {
@@ -57,14 +56,6 @@ typedef struct s_kdo_genome
 	float	fitness;
 }	t_kdo_genome;
 
-typedef struct s_kdo_genome_buf
-{
-	t_buf	link;
-	t_buf	node;
-	t_uint	link_count;
-	t_uint	node_count;
-}	t_kdo_genome_buf;
-
 typedef struct s_kdo_compatibility
 {
 	float	same_link;
@@ -86,7 +77,6 @@ typedef struct s_kdo_spacies
 
 typedef struct s_kdo_population
 {
-	t_kdo_genome_buf	genome_buf;
 	t_kdo_genome		*genome;
 	t_kdo_spacies		*spacies;
 	t_uint				genome_count;
@@ -136,6 +126,13 @@ typedef struct s_kdo_neat
 	t_uint					max_link_count;
 }	t_kdo_neat;
 
+void			kdo_neat(t_kdo_neat_params *params);
+void			kdo_print_link(t_kdo_link *link, int fd);
+void			kdo_print_node(t_kdo_node *node, int fd);
+void			kdo_print_genome(t_kdo_genome *genome, int fd);
+void			kdo_print_spacies(t_kdo_spacies *spacies, int fd);
+void			kdo_print_population(t_kdo_population *pop, int fd);
+
 t_kdo_link		*kdo_get_link(t_kdo_neat *nn, t_kdo_node *to);
 void			kdo_add_link(t_kdo_neat *nn, t_kdo_genome *genome_from,
 					t_kdo_node *node_from, t_kdo_link *link);
@@ -168,7 +165,8 @@ void			kdo_dup_genome(t_kdo_neat *nn,
 void			kdo_reset_spacies(t_kdo_spacies *spacies);
 void			kdo_push_to_spacies(t_kdo_neat *nn,
 					t_kdo_spacies *spacies, t_kdo_genome *genome);
-void			kdo_update_spacies(t_kdo_spacies *spacies);
+t_kdo_spacies	*kdo_find_spacies(t_kdo_neat *nn, t_kdo_genome *genome);
+void			kdo_update_spacies(t_kdo_neat *nn, t_kdo_spacies *spacies);
 t_uint			kdo_spacies_fill_count(t_kdo_neat *nn);
 float			kdo_compatibility_score(t_kdo_neat *nn,
 					t_kdo_genome *genome1, t_kdo_genome *genome2);

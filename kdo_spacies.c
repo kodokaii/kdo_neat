@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 13:32:52 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/29 22:42:27 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	kdo_crossover_spacies(t_kdo_neat *nn,
 	float			fitness_sum;
 
 	child_count = (t_uint)
-		((spacies_src->fitness_avg / nn->population.fitness_avg)
-			* nn->params.genome_target_count + 1.0f);
+		((spacies_src->fitness_avg / nn->old_population.fitness_avg)
+			* (float)nn->params.genome_target_count + 1.0f);
 	if (nn->params.genome_target_count
 		< nn->population.genome_count + child_count)
 		child_count
@@ -71,4 +71,5 @@ void	kdo_crossover_spacies(t_kdo_neat *nn,
 		kdo_crossover_genome(parent1, parent2);
 		kdo_push_to_spacies(nn, spacies_dst, parent1);
 	}
+	spacies_dst->no_progress_count = spacies_src->no_progress_count;
 }

@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 13:13:42 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/28 23:13:52 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ t_kdo_node	*kdo_get_node(t_kdo_neat *nn,
 {
 	t_kdo_node	*node;
 
-	node = ft_buf_alloc(&nn->population.genome_buf.node,
-			nn->population.genome_buf.node_count * sizeof(t_kdo_node),
-			sizeof(t_kdo_node));
+	node = malloc(sizeof(t_kdo_node));
 	if (!node)
 		kdo_neat_cleanup(nn, ERRLOC, EXIT_FAILURE);
 	node->link = NULL;
@@ -31,7 +29,6 @@ t_kdo_node	*kdo_get_node(t_kdo_neat *nn,
 	node->layer = layer;
 	node->type = type;
 	node->id = id;
-	nn->population.genome_buf.node_count++;
 	return (node);
 }
 

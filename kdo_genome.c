@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 12:47:13 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:15:57 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	kdo_feed_forward_genome(t_kdo_neat *nn, t_kdo_genome *genome)
 	current = genome->node;
 	while (current)
 	{
-		if (((t_kdo_node *)genome->node)->type == INPUT_NODE)
-			((t_kdo_node *)genome->node)->input += nn->input[input_index++];
+		if (((t_kdo_node *)current->data)->type == INPUT_NODE)
+			((t_kdo_node *)current->data)->input += nn->input[input_index++];
 		kdo_feed_forward_node(nn, current->data);
-		if (((t_kdo_node *)genome->node)->type == OUTPUT_NODE)
-			nn->output[output_index++] = ((t_kdo_node *)genome->node)->output;
+		if (((t_kdo_node *)current->data)->type == OUTPUT_NODE)
+			nn->output[output_index++] = ((t_kdo_node *)current->data)->output;
 		current = current->next;
 	}
 }
@@ -59,7 +59,7 @@ void	kdo_mutate_genome(t_kdo_neat *nn, t_kdo_genome *genome)
 {
 	if (ft_randf() <= nn->params.mutate_link_prob)
 		kdo_mutate_link(nn,
-			kdo_get_random_link(kdo_get_random_node(genome)->data)->data);
+			kdo_get_random_link(kdo_get_linked_node(genome)->data)->data);
 	if (ft_randf() <= nn->params.link_add_prob)
 		kdo_add_random_link(nn, genome);
 	if (ft_randf() <= nn->params.mutate_node_prob)

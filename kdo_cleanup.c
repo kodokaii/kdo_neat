@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 13:27:06 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:02:05 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,18 @@
 
 void	kdo_free_node(t_kdo_node *node)
 {
-	ft_lstclear(&node->link, NULL);
-	node->link_count = 0;
+	ft_lstclear(&node->link, &free);
+	free(node);
 }
 
 void	kdo_free_genome(t_kdo_genome *genome)
 {
 	ft_lstclear(&genome->node, &kdo_free_node);
-	genome->link_count = 0;
-	genome->node_count = 0;
 }
 
 void	kdo_free_spacies(t_kdo_spacies *spacies)
 {
 	ft_lstclear(&spacies->genome, NULL);
-	spacies->genome_count = 0;
 }
 
 void	kdo_free_population(t_kdo_population *population)
@@ -45,10 +42,6 @@ void	kdo_free_population(t_kdo_population *population)
 		kdo_free_spacies(population->spacies + i++);
 	free(population->spacies);
 	population->spacies_count = 0;
-	ft_buf_free(&population->genome_buf.link);
-	population->genome_buf.link_count = 0;
-	ft_buf_free(&population->genome_buf.node);
-	population->genome_buf.node_count = 0;
 }
 
 void	kdo_neat_cleanup(t_kdo_neat *nn, char *str_error, int error)
@@ -62,5 +55,6 @@ void	kdo_neat_cleanup(t_kdo_neat *nn, char *str_error, int error)
 	nn->output = NULL;
 	nn->params.output_count = 0;
 	ft_dprintf(STDERR_FILENO, "neat: %s\n", str_error);
-	exit(error);
+	if (error)
+		exit(error);
 }

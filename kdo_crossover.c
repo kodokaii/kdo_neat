@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 12:43:19 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/29 22:42:03 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	kdo_crossover(t_kdo_neat *nn)
 	nn->population = nn->old_population;
 	nn->old_population = tmp;
 	kdo_reset_population(&nn->population);
-	while (i < nn->population.spacies_count)
+	while (i < nn->old_population.spacies_count)
 	{
 		kdo_crossover_spacies(nn,
 			nn->population.spacies + i, nn->old_population.spacies + i);
