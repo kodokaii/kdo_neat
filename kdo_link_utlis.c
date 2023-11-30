@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 23:13:41 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/30 13:58:46 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	kdo_add_link(t_kdo_neat *nn, t_kdo_genome *genome_from,
 	link_element = ft_lstnew(link);
 	if (!link_element)
 		kdo_neat_cleanup(nn, ERRLOC, EXIT_FAILURE);
-	kdo_layer_propagation_link(link, node_from->layer);
+	kdo_layer_propagation(link, node_from->layer);
 	ft_lstsort_merge(&node_from->link, link_element, kdo_link_id_cmp);
 	node_from->link_count++;
 	genome_from->link_count++;

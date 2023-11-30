@@ -3,7 +3,7 @@ NAME 		= neat
 CC 			= cc
 RM			= rm -f
 CLONE 		= git clone --depth=1
-CFLAGS 		+= -Wall -Wextra -Werror -fPIE
+CFLAGS 		+= -Wall -Wextra -Werror -O3 -fPIE
 CLINKS		=
 
 FT			= libft

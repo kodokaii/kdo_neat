@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/29 23:37:33 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:33:09 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,11 @@ typedef struct s_kdo_neat_params
 	float					bias_shift_prob;
 	float					function_change_prob;
 	float					node_add_prob;
-	t_uint					input_count;
-	t_uint					output_count;
+	float					fitness_target;
 	t_uint					spacies_target_count;
 	t_uint					genome_target_count;
+	t_uint					input_count;
+	t_uint					output_count;
 	t_kdo_fitness_func		fitness_func;
 	t_kdo_activation_func	*activation_func;
 	t_uint					activation_func_count;
@@ -202,8 +203,7 @@ void			kdo_add_random_link(t_kdo_neat *nn, t_kdo_genome *genome);
 void			kdo_add_random_node(t_kdo_neat *nn, t_kdo_genome *genome);
 void			kdo_mutate(t_kdo_neat *nn);
 
-void			kdo_layer_propagation_link(t_kdo_link *link, t_uint layer);
-void			kdo_layer_propagation_node(t_kdo_node *node);
+void			kdo_layer_propagation(t_kdo_link *link, t_uint layer);
 
 int				kdo_link_layer_cmp(t_kdo_link *link1, t_kdo_link *link2);
 int				kdo_link_id_cmp(t_kdo_link *link1, t_kdo_link *link2);
