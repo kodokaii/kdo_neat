@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 00:25:42 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 18:52:34 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void	kdo_push_to_spacies(t_kdo_neat *nn,
 	genome_element = ft_lstnew_alloc(&nn->population.alloc, genome);
 	if (!genome_element)
 		kdo_neat_cleanup(nn, ERRLOC, EXIT_FAILURE);
-	ft_lstsort_merge(&spacies->genome,
-		genome_element, &kdo_genome_cmp);
+	ft_lstadd_back(&spacies->genome, genome_element);
 	spacies->genome_count++;
 }
 

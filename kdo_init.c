@@ -25,7 +25,7 @@ void	kdo_init(t_kdo_neat *nn, t_kdo_neat_params *params)
 	kdo_population_alloc(nn, &nn->old_population);
 	while (i < nn->population.genome_count)
 	{
-		kdo_push_to_spacies(nn, kdo_find_spacies(nn, nn->population.genome + i),
+		kdo_push_to_species(nn, kdo_find_species(nn, nn->population.genome + i),
 			nn->population.genome + i);
 		i++;
 	}

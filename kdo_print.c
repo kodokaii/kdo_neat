@@ -54,14 +54,14 @@ void	kdo_print_genome(t_kdo_genome *genome, int fd)
 	}
 }
 
-void	kdo_print_spacies(t_kdo_spacies *spacies, int fd)
+void	kdo_print_species(t_kdo_species *species, int fd)
 {
 	t_list	*current;
 
-	current = spacies->genome;
+	current = species->genome;
 	dprintf(fd, "\n<SPACIES>\n(Gc:%u|NP:%u|fm:%f|fa:%f)\n\n\n",
-		spacies->genome_count, spacies->no_progress_count,
-		spacies->fitness_max, spacies->fitness_avg);
+		species->genome_count, species->no_progress_count,
+		species->fitness_max, species->fitness_avg);
 	while (current)
 	{
 		kdo_print_genome(current->data, fd);
@@ -77,13 +77,13 @@ void	kdo_print_population(t_kdo_population *pop, int fd)
 
 	i = 0;
 	dprintf(fd, "\n__POPULATION__\n(Gc:%u|Sc:%u|fm:%f|fa:%f)\n\n\n",
-		pop->genome_count, pop->spacies_count,
+		pop->genome_count, pop->species_count,
 		pop->fitness_max, pop->fitness_avg);
-	while (i < pop->spacies_count)
+	while (i < pop->species_count)
 	{
-		if (pop->spacies[i].genome_count)
+		if (pop->species[i].genome_count)
 		{
-			kdo_print_spacies(pop->spacies + i, fd);
+			kdo_print_species(pop->species + i, fd);
 			dprintf(fd, "\n%s=====================================%s\n\n\n\n",
 				COLOR_MAGENTA, COLOR_RESET);
 		}

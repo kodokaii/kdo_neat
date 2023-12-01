@@ -21,15 +21,15 @@ void	kdo_update_fitness(t_kdo_neat *nn)
 	i = 0;
 	fitness_sum = 0.0f;
 	fitness_max = 0.0f;
-	while (i < nn->population.spacies_count)
+	while (i < nn->population.species_count)
 	{
-		kdo_update_spacies(nn, nn->population.spacies + i);
-		fitness_sum += nn->population.spacies[i].fitness_avg;
+		kdo_update_species(nn, nn->population.species + i);
+		fitness_sum += nn->population.species[i].fitness_avg;
 		fitness_max
-			= ft_max_double(fitness_max, nn->population.spacies[i].fitness_max);
+			= ft_max_double(fitness_max, nn->population.species[i].fitness_max);
 		i++;
 	}
 	nn->population.fitness_avg
-		= fitness_sum / (float)nn->population.spacies_count;
+		= fitness_sum / (float)nn->population.species_count;
 	nn->population.fitness_max = fitness_max;
 }

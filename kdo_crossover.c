@@ -22,9 +22,9 @@ void	kdo_crossover(t_kdo_neat *nn)
 	nn->population = nn->old_population;
 	nn->old_population = tmp_population;
 	kdo_reset_population(&nn->population);
-	while (i < nn->old_population.spacies_count)
+	while (i < nn->old_population.species_count)
 	{
-		kdo_crossover_spacies(nn, nn->old_population.spacies + i);
+		kdo_crossover_species(nn, nn->old_population.species + i);
 		i++;
 	}
 }

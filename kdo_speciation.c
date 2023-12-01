@@ -6,32 +6,32 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 01:50:27 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 13:49:25 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
 
 static void	_get_reclassify(t_kdo_neat *nn,
-		t_kdo_spacies *spacies, t_list **reclassify)
+		t_kdo_species *species, t_list **reclassify)
 {
 	t_list	*current;
 	t_list	*to_reclassify;
 	float	score;
 
-	if (2 <= spacies->genome_count)
+	if (2 <= species->genome_count)
 	{
-		current = spacies->genome;
+		current = species->genome;
 		while (current->next)
 		{
 			score = kdo_compatibility_score(nn,
-					spacies->genome->data, current->next->data);
+					species->genome->data, current->next->data);
 			if (nn->params.compatibility_limit < score)
 			{
 				to_reclassify = current->next;
 				current->next = current->next->next;
 				ft_lstadd_front(reclassify, to_reclassify);
-				spacies->genome_count--;
+				species->genome_count--;
 			}
 			else
 				current = current->next;
@@ -48,17 +48,17 @@ void	kdo_speciation(t_kdo_neat *nn)
 
 	i = 0;
 	reclassify = NULL;
-	while (i < nn->population.spacies_count)
-		_get_reclassify(nn, nn->population.spacies + i++, &reclassify);
+	while (i < nn->population.species_count)
+		_get_reclassify(nn, nn->population.species + i++, &reclassify);
 	current = reclassify;
 	while (current)
 	{
-		kdo_push_to_spacies(nn,
-			kdo_find_spacies(nn, current->data), current->data);
+		kdo_push_to_species(nn,
+			kdo_find_species(nn, current->data), current->data);
 		current = current->next;
 	}
-	modifier_coef = (float)nn->params.spacies_target_count
-		/ (float)nn->population.spacies_count - 1;
+	modifier_coef = (float)nn->params.species_target_count
+		/ (float)nn->population.species_count - 1;
 	nn->params.compatibility_limit
 		-= nn->params.compatibility_modifer * modifier_coef;
 }

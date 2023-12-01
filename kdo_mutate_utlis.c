@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/23 22:31:23 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:12:08 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_list	*kdo_get_node_free_link(t_kdo_genome *genome)
 	t_uint	after_node_count;
 
 	node_index = ft_rand() % genome->node_count;
-	after_node_count = genome->node_count - node_index - 1;
+	after_node_count = genome->node_count - (node_index + 1);
 	node = ft_lstget(genome->node, node_index);
 	while (((t_kdo_node *)(node->data))->link_count == after_node_count)
 	{

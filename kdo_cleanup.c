@@ -16,9 +16,9 @@ void	kdo_free_population(t_kdo_population *population)
 {
 	ft_free(&population->alloc);
 	free(population->genome);
-	free(population->spacies);
+	free(population->species);
 	population->genome_count = 0;
-	population->spacies_count = 0;
+	population->species_count = 0;
 }
 
 void	kdo_neat_cleanup(t_kdo_neat *nn, char *str_error, int error)

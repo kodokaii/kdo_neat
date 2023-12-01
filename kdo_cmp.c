@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/25 13:34:07 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 19:03:59 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	kdo_node_id_cmp(t_kdo_node *node1, t_kdo_node *node2)
 	return (node1->id - node2->id);
 }
 
-int	kdo_genome_cmp(t_kdo_genome *genome1, t_kdo_genome *genome2)
+int	kdo_genome_fitness_cmp(t_kdo_genome *genome1, t_kdo_genome *genome2)
 {
 	if (genome1->fitness < genome2->fitness)
 		return (1);

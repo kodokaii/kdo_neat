@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 01:40:42 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:26:15 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ void	kdo_genome_init(t_kdo_neat *nn, t_kdo_genome *genome)
 	i = 0;
 	while (i++ < nn->params.output_count)
 		kdo_add_node(nn, genome, kdo_get_node(nn, 1, OUTPUT_NODE, id++));
-	i = 0;
 	current = genome->node;
-	while (i++ < nn->params.input_count)
+	while (current)
 	{
 		kdo_node_init(nn, genome, current->data);
 		current = current->next;

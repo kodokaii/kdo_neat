@@ -16,7 +16,7 @@ void	kdo_reset_population(t_kdo_population *population)
 {
 	ft_reset(&population->alloc);
 	population->genome_count = 0;
-	population->spacies_count = 0;
+	population->species_count = 0;
 	population->fitness_max = 0.0f;
 	population->fitness_avg = 0.0f;
 }
@@ -26,9 +26,9 @@ void	kdo_population_alloc(t_kdo_neat *nn, t_kdo_population *population)
 	population->genome = malloc(nn->params.genome_target_count
 			* sizeof(t_kdo_genome));
 	population->genome_count = 0;
-	population->spacies = malloc(2 * nn->params.spacies_target_count
-			* sizeof(t_kdo_spacies));
-	population->spacies_count = 0;
+	population->species = malloc(2 * nn->params.species_target_count
+			* sizeof(t_kdo_species));
+	population->species_count = 0;
 }
 
 void	kdo_population_init(t_kdo_neat *nn, t_kdo_population *population)

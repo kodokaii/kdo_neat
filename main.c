@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 02:06:51 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 20:05:41 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int	main(void)
 		= {kdo_sigmoid, kdo_softsign, kdo_relu, kdo_step, kdo_identity};
 
 	_get_prob(&params);
-	params.fitness_target = 10.0f;
-	params.spacies_target_count = 10;
+	params.fitness_target = 1000.0f;
+	params.species_target_count = 10;
 	params.genome_target_count = 1000;
 	params.input_count = 2;
 	params.output_count = 1;
