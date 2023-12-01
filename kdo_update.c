@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/29 23:37:54 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 00:34:46 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ void	kdo_update_fitness(t_kdo_neat *nn)
 		i++;
 	}
 	nn->population.fitness_avg
-		= fitness_sum / (float)kdo_spacies_fill_count(nn);
+		= fitness_sum / (float)nn->population.spacies_count;
 	nn->population.fitness_max = fitness_max;
 }

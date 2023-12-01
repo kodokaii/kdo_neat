@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/29 22:14:08 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 01:50:27 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ void	kdo_speciation(t_kdo_neat *nn)
 		current = current->next;
 	}
 	modifier_coef = (float)nn->params.spacies_target_count
-		/ (float)kdo_spacies_fill_count(nn) - 1;
+		/ (float)nn->population.spacies_count - 1;
 	nn->params.compatibility_limit
 		-= nn->params.compatibility_modifer * modifier_coef;
-	ft_lstclear(&reclassify, NULL);
 }

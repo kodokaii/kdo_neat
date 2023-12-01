@@ -6,16 +6,24 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/29 23:36:45 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 00:25:42 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
 
-void	kdo_reset_spacies(t_kdo_spacies *spacies)
+t_kdo_spacies	*kdo_get_spacies(t_kdo_neat *nn)
 {
-	kdo_free_spacies(spacies);
-	ft_bzero(spacies, sizeof(t_kdo_spacies));
+	t_kdo_spacies	*spacies;
+
+	if (nn->population.spacies_count < nn->params.spacies_target_count * 2)
+	{
+		spacies = nn->population.spacies + nn->population.spacies_count;
+		ft_bzero(spacies, sizeof(t_kdo_spacies));
+		nn->population.spacies_count++;
+		return (spacies);
+	}
+	return (NULL);
 }
 
 void	kdo_push_to_spacies(t_kdo_neat *nn,
@@ -23,7 +31,7 @@ void	kdo_push_to_spacies(t_kdo_neat *nn,
 {
 	t_list	*genome_element;
 
-	genome_element = ft_lstnew(genome);
+	genome_element = ft_lstnew_alloc(&nn->population.alloc, genome);
 	if (!genome_element)
 		kdo_neat_cleanup(nn, ERRLOC, EXIT_FAILURE);
 	ft_lstsort_merge(&spacies->genome,
@@ -33,16 +41,17 @@ void	kdo_push_to_spacies(t_kdo_neat *nn,
 
 t_kdo_spacies	*kdo_find_spacies(t_kdo_neat *nn, t_kdo_genome *genome)
 {
-	t_uint	spacies_index;
-	float	spacies_score;
-	t_uint	best_index;
-	float	best_score;
+	t_uint			spacies_index;
+	float			spacies_score;
+	t_uint			best_index;
+	float			best_score;
+	t_kdo_spacies	*spacies;
 
-	spacies_index = 0;
+	spacies = NULL;
+	spacies_index = -1;
 	best_index = 0;
 	best_score = 3.402823466e+38F;
-	while (spacies_index < nn->population.spacies_count
-		&& nn->population.spacies[spacies_index].genome_count)
+	while (++spacies_index < nn->population.spacies_count)
 	{
 		spacies_score = kdo_compatibility_score(nn, genome,
 				nn->population.spacies[spacies_index].genome->data);
@@ -51,12 +60,12 @@ t_kdo_spacies	*kdo_find_spacies(t_kdo_neat *nn, t_kdo_genome *genome)
 			best_score = spacies_score;
 			best_index = spacies_index;
 		}
-		spacies_index++;
 	}
-	if (nn->params.compatibility_limit < best_score
-		&& spacies_index < nn->population.spacies_count)
-		return (nn->population.spacies + spacies_index);
-	return (nn->population.spacies + best_index);
+	if (nn->params.compatibility_limit < best_score)
+		spacies = kdo_get_spacies(nn);
+	if (!spacies)
+		spacies = nn->population.spacies + best_index;
+	return (spacies);
 }
 
 void	kdo_update_spacies(t_kdo_neat *nn, t_kdo_spacies *spacies)
@@ -85,15 +94,4 @@ void	kdo_update_spacies(t_kdo_neat *nn, t_kdo_spacies *spacies)
 		|| nn->params.dropoff_age <= spacies->no_progress_count)
 		spacies->no_progress_count = 0;
 	spacies->fitness_max = fitness_max;
-}
-
-t_uint	kdo_spacies_fill_count(t_kdo_neat *nn)
-{
-	t_uint	i;
-
-	i = 0;
-	while (i < nn->population.spacies_count
-		&& nn->population.spacies[i].genome_count)
-		i++;
-	return (i);
 }

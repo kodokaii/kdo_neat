@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/29 20:33:11 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 00:19:06 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	kdo_dup_genome(t_kdo_neat *nn,
 	t_list	*current_src;
 	t_list	*current_dst;
 
-	kdo_reset_genome(genome_dst);
+	ft_bzero(genome_dst, sizeof(t_kdo_genome));
 	_dup_node(nn, genome_dst, genome_src);
 	current_src = genome_src->node;
 	current_dst = genome_dst->node;

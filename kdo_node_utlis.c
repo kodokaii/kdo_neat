@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/28 23:13:52 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/11/30 23:09:54 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_kdo_node	*kdo_get_node(t_kdo_neat *nn,
 {
 	t_kdo_node	*node;
 
-	node = malloc(sizeof(t_kdo_node));
+	node = ft_malloc(&nn->population.alloc, sizeof(t_kdo_node));
 	if (!node)
 		kdo_neat_cleanup(nn, ERRLOC, EXIT_FAILURE);
 	node->link = NULL;
@@ -69,7 +69,7 @@ void	kdo_add_node(t_kdo_neat *nn,
 {
 	t_list	*node_element;
 
-	node_element = ft_lstnew(node);
+	node_element = ft_lstnew_alloc(&nn->population.alloc, node);
 	if (!node_element)
 		kdo_neat_cleanup(nn, ERRLOC, EXIT_FAILURE);
 	ft_lstsort_merge(&genome_from->node, node_element, kdo_node_id_cmp);

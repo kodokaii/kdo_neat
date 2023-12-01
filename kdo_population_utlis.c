@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/29 12:24:10 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 01:42:59 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,21 @@
 
 void	kdo_reset_population(t_kdo_population *population)
 {
-	t_uint	i;
-
-	i = 0;
-	while (i < population->genome_count)
-		kdo_reset_genome(population->genome + i++);
+	ft_reset(&population->alloc);
 	population->genome_count = 0;
-	i = 0;
-	while (i < population->spacies_count)
-		kdo_reset_spacies(population->spacies + i++);
+	population->spacies_count = 0;
 	population->fitness_max = 0.0f;
 	population->fitness_avg = 0.0f;
 }
 
 void	kdo_population_alloc(t_kdo_neat *nn, t_kdo_population *population)
 {
-	population->genome = ft_calloc(nn->params.genome_target_count,
-			sizeof(t_kdo_genome));
+	population->genome = malloc(nn->params.genome_target_count
+			* sizeof(t_kdo_genome));
 	population->genome_count = 0;
-	population->spacies = ft_calloc(2 * nn->params.spacies_target_count,
-			sizeof(t_kdo_spacies));
-	population->spacies_count = 2 * nn->params.spacies_target_count;
+	population->spacies = malloc(2 * nn->params.spacies_target_count
+			* sizeof(t_kdo_spacies));
+	population->spacies_count = 0;
 }
 
 void	kdo_population_init(t_kdo_neat *nn, t_kdo_population *population)

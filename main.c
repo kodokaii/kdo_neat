@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/30 15:17:42 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 02:06:51 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	_get_prob(t_kdo_neat_params *params)
 	params->weight_shift_prob = 0.9f;
 	params->weight_random_prob = 0.1f;
 	params->link_toggle_prob = 0.02f;
-	params->link_add_prob = 0.05f;
+	params->link_add_prob = 0.01f;
 	params->mutate_node_prob = 0.9f;
 	params->bias_shift_prob = 0.5f;
 	params->function_change_prob = 0.1f;

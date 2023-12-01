@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/30 14:33:09 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 00:14:56 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_kdo_spacies
 
 typedef struct s_kdo_population
 {
+	t_alloc				alloc;
 	t_kdo_genome		*genome;
 	t_kdo_spacies		*spacies;
 	t_uint				genome_count;
@@ -152,7 +153,6 @@ void			kdo_feed_forward_node(t_kdo_neat *nn, t_kdo_node *node);
 void			kdo_crossover_node(t_kdo_node *node1, t_kdo_node *node2);
 void			kdo_mutate_node(t_kdo_neat *nn, t_kdo_node *node);
 
-void			kdo_reset_genome(t_kdo_genome *genome);
 t_kdo_genome	*kdo_get_genome(t_kdo_neat *nn);
 void			kdo_genome_init(t_kdo_neat *nn, t_kdo_genome *genome);
 void			kdo_feed_forward_genome(t_kdo_neat *nn, t_kdo_genome *genome);
@@ -163,16 +163,15 @@ void			kdo_mutate_genome(t_kdo_neat *nn, t_kdo_genome *genome);
 void			kdo_dup_genome(t_kdo_neat *nn,
 					t_kdo_genome *genome_dst, t_kdo_genome *genome_src);
 
-void			kdo_reset_spacies(t_kdo_spacies *spacies);
+t_kdo_spacies	*kdo_get_spacies(t_kdo_neat *nn);
 void			kdo_push_to_spacies(t_kdo_neat *nn,
 					t_kdo_spacies *spacies, t_kdo_genome *genome);
 t_kdo_spacies	*kdo_find_spacies(t_kdo_neat *nn, t_kdo_genome *genome);
 void			kdo_update_spacies(t_kdo_neat *nn, t_kdo_spacies *spacies);
-t_uint			kdo_spacies_fill_count(t_kdo_neat *nn);
 float			kdo_compatibility_score(t_kdo_neat *nn,
 					t_kdo_genome *genome1, t_kdo_genome *genome2);
 void			kdo_crossover_spacies(t_kdo_neat *nn,
-					t_kdo_spacies *spacies_dst, t_kdo_spacies *spacies_src);
+					t_kdo_spacies *spacies_src);
 
 void			kdo_reset_population(t_kdo_population *population);
 void			kdo_population_alloc(t_kdo_neat *nn,
@@ -217,9 +216,6 @@ float			kdo_relu(float in);
 float			kdo_softsign(float in);
 float			kdo_sigmoid(float in);
 
-void			kdo_free_node(t_kdo_node *node);
-void			kdo_free_genome(t_kdo_genome *genome);
-void			kdo_free_spacies(t_kdo_spacies *spacies);
 void			kdo_free_population(t_kdo_population *population);
 void			kdo_neat_cleanup(t_kdo_neat *nn, char *str_error, int error);
 
