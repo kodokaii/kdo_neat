@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 20:05:41 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 20:53:11 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void	_get_prob(t_kdo_neat_params *params)
 	params->bias_coef = 1.5f;
 	params->compatibility_limit = 6.0f;
 	params->compatibility_modifer = 0.3f;
-	params->dropoff_age = 15.0f;
+	params->dropoff_age = 100.0f;
 	params->survival_limit = 0.2f;
 	params->mutate_link_prob = 1.0f;
 	params->weight_shift_prob = 0.9f;
 	params->weight_random_prob = 0.1f;
-	params->link_toggle_prob = 0.02f;
+	params->link_toggle_prob = 0.1f;
 	params->link_add_prob = 0.01f;
 	params->mutate_node_prob = 0.9f;
 	params->bias_shift_prob = 0.5f;
@@ -64,7 +64,7 @@ int	main(void)
 		= {kdo_sigmoid, kdo_softsign, kdo_relu, kdo_step, kdo_identity};
 
 	_get_prob(&params);
-	params.fitness_target = 1000.0f;
+	params.fitness_target = 1.5f;
 	params.species_target_count = 10;
 	params.genome_target_count = 1000;
 	params.input_count = 2;

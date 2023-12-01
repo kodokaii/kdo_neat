@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 18:52:34 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/01 20:29:54 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,9 @@ void	kdo_update_species(t_kdo_neat *nn, t_kdo_species *species)
 	species->fitness_avg
 		= fitness_sum / (float)ft_max_uint(species->genome_count, 1);
 	species->no_progress_count++;
+	if (species->fitness_max < fitness_max)
+		species->no_progress_count = 0;
 	if (nn->params.dropoff_age <= species->no_progress_count)
 		species->fitness_avg *= 0.01;
-	if (species->fitness_max < fitness_max
-		|| nn->params.dropoff_age <= species->no_progress_count)
-		species->no_progress_count = 0;
 	species->fitness_max = fitness_max;
 }
