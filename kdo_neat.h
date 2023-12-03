@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 19:09:19 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/03 00:35:00 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,50 @@ typedef struct s_kdo_neat
 	t_uint					max_link_count;
 }	t_kdo_neat;
 
-void			kdo_neat(t_kdo_neat_params *params);
+typedef struct s_kdo_save_link
+{
+	t_uint	to_id;
+	float	weight;
+	t_bool	enable;
+}	t_kdo_save_link;
+
+typedef struct s_kdo_save_node
+{
+	t_uint		link_count;
+	float		bias;
+	t_uint		activation_index;
+	t_uint		layer;
+	t_node_type	type;
+	t_uint		id;
+}	t_kdo_save_node;
+
+typedef struct s_kdo_save_genome
+{
+	t_uint	node_count;
+	t_uint	link_count;
+}	t_kdo_save_genome;
+
+typedef struct s_kdo_save_population
+{
+	t_uint				genome_count;
+	t_uint				node_count;
+	t_uint				link_count;
+	t_uint				generation_count;
+	t_uint				input_count;
+	t_uint				output_count;
+}	t_kdo_save_population;
+
+typedef struct s_kdo_save_neat
+{
+	t_kdo_save_population	population;
+	t_kdo_save_genome		*genome;
+	t_kdo_save_node			*node;
+	t_kdo_save_link			*link;
+}	t_kdo_save_neat;
+
+t_kdo_save_neat	kdo_neat(t_kdo_neat_params *params);
+void			kdo_neat_save(t_kdo_neat *nn, t_kdo_save_neat *nn_save);
+
 void			kdo_print_link(t_kdo_link *link, int fd);
 void			kdo_print_node(t_kdo_node *node, int fd);
 void			kdo_print_genome(t_kdo_genome *genome, int fd);
@@ -147,6 +190,7 @@ t_kdo_node		*kdo_get_node(t_kdo_neat *nn,
 void			kdo_node_init(t_kdo_neat *nn,
 					t_kdo_genome *genome_from, t_kdo_node *node);
 t_bool			kdo_node_is_link(t_kdo_node *node_from, t_kdo_node *node_to);
+t_kdo_node		*kdo_find_node(t_kdo_genome *genome_dst, t_kdo_node *node_src);
 void			kdo_add_node(t_kdo_neat *nn,
 					t_kdo_genome *genome_from, t_kdo_node *node);
 void			kdo_feed_forward_node(t_kdo_neat *nn, t_kdo_node *node);

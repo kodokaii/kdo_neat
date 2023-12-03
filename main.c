@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 20:53:11 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/03 00:58:43 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 static void	_get_prob(t_kdo_neat_params *params)
 {
-	params->link_coef = 2.0f;
-	params->node_coef = 3.0f;
-	params->weight_coef = 1.0f;
-	params->bias_coef = 1.5f;
-	params->compatibility_limit = 6.0f;
-	params->compatibility_modifer = 0.3f;
+	params->link_coef = 1.0f;
+	params->node_coef = 2.0f;
+	params->weight_coef = 0.5f;
+	params->bias_coef = 0.7f;
+	params->compatibility_limit = 3.0f;
+	params->compatibility_modifer = 0.2f;
 	params->dropoff_age = 100.0f;
-	params->survival_limit = 0.2f;
+	params->survival_limit = 0.3f;
 	params->mutate_link_prob = 1.0f;
-	params->weight_shift_prob = 0.9f;
-	params->weight_random_prob = 0.1f;
-	params->link_toggle_prob = 0.1f;
-	params->link_add_prob = 0.01f;
+	params->weight_shift_prob = 0.8f;
+	params->weight_random_prob = 0.08f;
+	params->link_toggle_prob = 0.05f;
+	params->link_add_prob = 0.02f;
 	params->mutate_node_prob = 0.9f;
-	params->bias_shift_prob = 0.5f;
-	params->function_change_prob = 0.1f;
-	params->node_add_prob = 0.005f;
+	params->bias_shift_prob = 0.6f;
+	params->function_change_prob = 0.03f;
+	params->node_add_prob = 0.006f;
 }
 
 float	kdo_xor(t_kdo_neat *nn, t_uint genome_being, void *ptr)
@@ -60,19 +60,23 @@ float	kdo_xor(t_kdo_neat *nn, t_uint genome_being, void *ptr)
 int	main(void)
 {
 	t_kdo_neat_params				params;
+	t_kdo_save_neat					save;
 	static t_kdo_activation_func	func[5]
 		= {kdo_sigmoid, kdo_softsign, kdo_relu, kdo_step, kdo_identity};
 
 	_get_prob(&params);
-	params.fitness_target = 1.5f;
+	params.fitness_target = 100.0f;
 	params.species_target_count = 10;
-	params.genome_target_count = 1000;
+	params.genome_target_count = 500;
 	params.input_count = 2;
 	params.output_count = 1;
 	params.fitness_func = &kdo_xor;
 	params.activation_func = func;
 	params.activation_func_count = 5;
 	params.ptr = NULL;
-	kdo_neat(&params);
+	save = kdo_neat(&params);
+	free(save.genome);
+	free(save.node);
+	free(save.link);
 	return (0);
 }

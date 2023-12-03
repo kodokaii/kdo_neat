@@ -6,22 +6,11 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 19:11:27 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/02 22:46:03 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
-
-static t_kdo_node	*_find_node_to(t_kdo_genome *genome_dst,
-					t_kdo_node *node_src)
-{
-	t_list	*current;
-
-	current = genome_dst->node;
-	while (kdo_node_id_cmp(current->data, node_src))
-		current = current->next;
-	return (current->data);
-}
 
 static void	_dup_link(t_kdo_neat *nn, t_kdo_genome *genome_dst,
 	t_kdo_node *node_dst, t_kdo_node *node_src)
@@ -33,7 +22,7 @@ static void	_dup_link(t_kdo_neat *nn, t_kdo_genome *genome_dst,
 	current = node_src->link;
 	while (current)
 	{
-		node_to = _find_node_to(genome_dst, ((t_kdo_link *)current->data)->to);
+		node_to = kdo_find_node(genome_dst, ((t_kdo_link *)current->data)->to);
 		link = kdo_get_link(nn, node_to);
 		link->weight = ((t_kdo_link *)current->data)->weight;
 		link->enable = ((t_kdo_link *)current->data)->enable;
