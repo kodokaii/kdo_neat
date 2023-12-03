@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 13:49:25 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/03 16:01:05 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	kdo_speciation(t_kdo_neat *nn)
 			kdo_find_species(nn, current->data), current->data);
 		current = current->next;
 	}
-	modifier_coef = (float)nn->params.species_target_count
-		/ (float)nn->population.species_count - 1;
+	modifier_coef = (float)nn->population.species_count
+		/ (float)nn->params.species_target_count - 1;
 	nn->params.compatibility_limit
-		-= nn->params.compatibility_modifer * modifier_coef;
+		+= nn->params.compatibility_modifer * modifier_coef;
 }

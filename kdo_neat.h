@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/03 00:35:00 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:13:33 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,14 @@ typedef struct s_kdo_neat_params
 	float					compatibility_modifer;
 	float					dropoff_age;
 	float					survival_limit;
+	float					weight_shift_coef;
 	float					mutate_link_prob;
 	float					weight_shift_prob;
 	float					weight_random_prob;
 	float					link_toggle_prob;
 	float					link_add_prob;
 	float					mutate_node_prob;
+	float					bias_shift_coef;
 	float					bias_shift_prob;
 	float					function_change_prob;
 	float					node_add_prob;

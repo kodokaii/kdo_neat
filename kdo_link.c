@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/30 14:07:37 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:15:59 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	kdo_mutate_link(t_kdo_neat *nn, t_kdo_link *link)
 	if (rng <= nn->params.weight_random_prob)
 		link->weight = (ft_randf() * 2) - 1;
 	else if (rng <= nn->params.weight_shift_prob)
-		link->weight += ((ft_randf_norm() * 2) - 1) / 10;
+		link->weight += ((ft_randf_norm() * 2) - 1)
+			* nn->params.weight_shift_coef;
 	if (ft_randf() <= nn->params.link_toggle_prob)
 		link->enable = !link->enable;
 }

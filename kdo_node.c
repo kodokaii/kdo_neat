@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 19:34:58 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:16:26 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	kdo_mutate_node(t_kdo_neat *nn, t_kdo_node *node)
 	if (rng <= nn->params.weight_random_prob)
 		node->bias = (ft_randf() * 2) - 1;
 	else if (rng <= nn->params.weight_shift_prob)
-		node->bias += ((ft_randf_norm() * 2) - 1) / 10;
+		node->bias += ((ft_randf_norm() * 2) - 1)
+			* nn->params.bias_shift_coef;
 	if (ft_randf() <= nn->params.function_change_prob)
 		node->activation_index = ft_rand() % nn->params.activation_func_count;
 }

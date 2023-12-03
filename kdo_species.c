@@ -6,19 +6,20 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 19:32:21 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/03 19:38:11 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
 
-t_uint	_child_count(t_kdo_neat *nn, t_kdo_species *species_src)
+static t_uint	_child_count(t_kdo_neat *nn, t_kdo_species *species_src)
 {
 	t_uint	child_count;
 
 	child_count = (t_uint)
-		((species_src->fitness_avg / nn->old_population.fitness_avg)
-			* (float)nn->params.genome_target_count + 1.0f);
+		((species_src->fitness_avg * (float)nn->params.genome_target_count)
+			/ (nn->old_population.fitness_avg
+				* nn->old_population.species_count));
 	if (nn->params.genome_target_count
 		< nn->population.genome_count + child_count)
 		child_count
@@ -26,7 +27,7 @@ t_uint	_child_count(t_kdo_neat *nn, t_kdo_species *species_src)
 	return (child_count);
 }
 
-float	_fitness_sum(t_kdo_neat *nn, t_kdo_species *species)
+static float	_fitness_sum(t_kdo_neat *nn, t_kdo_species *species)
 {
 	t_list	*current;
 	t_uint	parent_count;
@@ -44,7 +45,7 @@ float	_fitness_sum(t_kdo_neat *nn, t_kdo_species *species)
 	return (fitness_sum);
 }
 
-t_kdo_genome	*_get_parent1(t_kdo_species *species, float fitness_sum)
+static t_kdo_genome	*_get_parent1(t_kdo_species *species, float fitness_sum)
 {
 	t_list	*current;
 	float	random_fitness;
@@ -61,7 +62,7 @@ t_kdo_genome	*_get_parent1(t_kdo_species *species, float fitness_sum)
 	return (current->data);
 }
 
-t_kdo_genome	*_get_parent2(t_kdo_species *species,
+static t_kdo_genome	*_get_parent2(t_kdo_species *species,
 					t_kdo_genome *parent1, float fitness_sum)
 {
 	t_list	*current;
