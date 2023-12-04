@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/03 23:15:59 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:36:36 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,15 @@ void	kdo_mutate_link(t_kdo_neat *nn, t_kdo_link *link)
 			* nn->params.weight_shift_coef;
 	if (ft_randf() <= nn->params.link_toggle_prob)
 		link->enable = !link->enable;
+}
+
+void	kdo_save_link(t_kdo_neat *nn, t_kdo_link *link_src)
+{
+	nn->params.save->link[nn->params.save->link_index].to_id
+		= link_src->to->id;
+	nn->params.save->link[nn->params.save->link_index].weight
+		= link_src->weight;
+	nn->params.save->link[nn->params.save->link_index].enable
+		= link_src->enable;
+	nn->params.save->link_index = 0;
 }

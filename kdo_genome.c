@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/11/29 16:15:57 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:31:51 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,21 @@ void	kdo_mutate_genome(t_kdo_neat *nn, t_kdo_genome *genome)
 		kdo_mutate_node(nn, kdo_get_random_node(genome)->data);
 	if (ft_randf() <= nn->params.node_add_prob)
 		kdo_add_random_node(nn, genome);
+}
+
+void	kdo_save_genome(t_kdo_neat *nn, t_kdo_genome *genome_src)
+{
+	t_list	*current;
+
+	nn->params.save->genome[nn->params.save->genome_index].node_count
+		= genome_src->node_count;
+	nn->params.save->genome[nn->params.save->genome_index].link_count
+		= genome_src->link_count;
+	current = genome_src->node;
+	while (current)
+	{
+		kdo_save_node(nn, current->data);
+		current = current->next;
+	}
+	nn->params.save->genome_index++;
 }

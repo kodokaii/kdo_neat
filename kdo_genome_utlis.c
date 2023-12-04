@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 16:26:15 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:59:24 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	kdo_genome_init(t_kdo_neat *nn, t_kdo_genome *genome)
 
 	i = 0;
 	id = 0;
-	ft_bzero(genome, sizeof(t_kdo_genome));
 	while (i++ < nn->params.input_count)
 		kdo_add_node(nn, genome, kdo_get_node(nn, 0, INPUT_NODE, id++));
 	i = 0;

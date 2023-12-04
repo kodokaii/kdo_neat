@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/02 22:46:03 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/04 16:31:10 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static void	_dup_link(t_kdo_neat *nn, t_kdo_genome *genome_dst,
 	current = node_src->link;
 	while (current)
 	{
-		node_to = kdo_find_node(genome_dst, ((t_kdo_link *)current->data)->to);
+		node_to = kdo_find_node_id(genome_dst,
+				((t_kdo_link *)current->data)->to->id);
 		link = kdo_get_link(nn, node_to);
 		link->weight = ((t_kdo_link *)current->data)->weight;
 		link->enable = ((t_kdo_link *)current->data)->enable;

@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/03 00:36:11 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/04 16:30:18 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ void	kdo_node_init(t_kdo_neat *nn,
 	}
 }
 
-t_kdo_node	*kdo_find_node(t_kdo_genome *genome_dst, t_kdo_node *node_src)
+t_kdo_node	*kdo_find_node_id(t_kdo_genome *genome_dst, t_uint id)
 {
 	t_list	*current;
 
 	current = genome_dst->node;
-	while (current && kdo_node_id_cmp(current->data, node_src))
+	while (current && ((t_kdo_node *)current->data)->id != id)
 		current = current->next;
 	if (!current)
 		return (NULL);
