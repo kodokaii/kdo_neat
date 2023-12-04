@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/01 20:29:54 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/04 01:16:08 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ t_kdo_species	*kdo_find_species(t_kdo_neat *nn, t_kdo_genome *genome)
 	t_kdo_species	*species;
 
 	species = NULL;
-	species_index = -1;
-	best_index = 0;
+	species_index = 0;
 	best_score = 3.402823466e+38F;
-	while (++species_index < nn->population.species_count)
+	while (species_index < nn->population.species_count)
 	{
 		species_score = kdo_compatibility_score(nn, genome,
 				nn->population.species[species_index].genome->data);
@@ -59,6 +58,7 @@ t_kdo_species	*kdo_find_species(t_kdo_neat *nn, t_kdo_genome *genome)
 			best_score = species_score;
 			best_index = species_index;
 		}
+		species_index++;
 	}
 	if (nn->params.compatibility_limit < best_score)
 		species = kdo_get_species(nn);
