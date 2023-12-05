@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 03:30:09 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:12:46 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	kdo_save_genome(t_kdo_neat *nn, t_kdo_genome *genome_src)
 
 	genome_dst = nn->params.save->genome + nn->params.save->genome_index;
 	genome_dst->node_count = genome_src->node_count;
+	genome_dst->link_count = genome_src->link_count;
 	genome_dst->fitness = genome_src->fitness;
 	current = genome_src->node;
 	while (current)

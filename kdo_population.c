@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 03:39:09 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:03:36 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,17 @@ void	kdo_reset_population(t_kdo_population *population)
 	population->fitness_avg = 0.0f;
 }
 
-void	kdo_population_alloc(t_kdo_neat *nn, t_kdo_population *population)
+int	kdo_population_alloc(t_kdo_neat *nn, t_kdo_population *population)
 {
 	population->genome = malloc(nn->params.genome_target_count
 			* sizeof(t_kdo_genome));
-	population->genome_count = 0;
+	if (!population->genome && nn->params.genome_target_count)
+		return (EXIT_FAILURE);
 	population->species = malloc(2 * nn->params.species_target_count
 			* sizeof(t_kdo_species));
-	population->species_count = 0;
+	if (!population->species && nn->params.species_target_count)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 void	kdo_population_load(t_kdo_neat *nn)

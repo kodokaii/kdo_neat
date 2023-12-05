@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 03:42:18 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:51:30 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	main(void)
 	static t_kdo_activation_func	func[5]
 		= {kdo_sigmoid, kdo_softsign, kdo_relu, kdo_step, kdo_identity};
 
-	kdo_read_save(&save, "xor.pop");
 	_get_prob(&params);
 	params.fitness_target = 10000.0f;
 	params.species_target_count = 10;
@@ -76,11 +75,11 @@ int	main(void)
 	params.fitness_func = &kdo_xor;
 	params.activation_func = func;
 	params.activation_func_count = 2;
-	params.load = &save;
-	params.save = NULL;
+	params.load = NULL;
+	params.save = &save;
 	params.ptr = NULL;
 	kdo_neat(&params);
-//	kdo_write_save(&save, "xor.pop");
+	kdo_write_save(&save, "xor.pop");
 	kdo_free_save(&save);
 	return (0);
 }

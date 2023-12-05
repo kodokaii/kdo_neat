@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 03:26:17 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:21:07 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_kdo_save_node
 typedef struct s_kdo_save_genome
 {
 	t_uint	node_count;
+	t_uint	link_count;
 	float	fitness;
 }	t_kdo_save_genome;
 
@@ -176,6 +177,9 @@ typedef struct s_kdo_neat
 }	t_kdo_neat;
 
 void			kdo_neat(t_kdo_neat_params *params);
+t_kdo_neat		kdo_load_best_genome(t_kdo_save_neat *save,
+					t_kdo_activation_func *activation_func,
+					t_uint activation_func_count);
 int				kdo_write_save(t_kdo_save_neat *save, char *file_name);
 int				kdo_read_save(t_kdo_save_neat *save, char *file_name);
 
@@ -229,7 +233,7 @@ void			kdo_crossover_species(t_kdo_neat *nn,
 					t_kdo_species *species_src);
 
 void			kdo_reset_population(t_kdo_population *population);
-void			kdo_population_alloc(t_kdo_neat *nn,
+int				kdo_population_alloc(t_kdo_neat *nn,
 					t_kdo_population *population);
 void			kdo_population_load(t_kdo_neat *nn);
 void			kdo_population_init(t_kdo_neat *nn);
