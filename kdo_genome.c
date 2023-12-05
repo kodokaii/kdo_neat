@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 01:53:01 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 03:30:09 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	kdo_genome_load(t_kdo_neat *nn, t_kdo_genome *genome_dst)
 
 	i = 0;
 	genome_src = nn->params.load->genome + nn->params.load->genome_index;
+	genome_dst->fitness = genome_src->fitness;
 	while (i++ < genome_src->node_count)
 		kdo_node_load(nn, genome_dst);
 	current = genome_dst->node;
@@ -90,10 +91,12 @@ void	kdo_mutate_genome(t_kdo_neat *nn, t_kdo_genome *genome)
 
 void	kdo_save_genome(t_kdo_neat *nn, t_kdo_genome *genome_src)
 {
-	t_list	*current;
+	t_kdo_save_genome	*genome_dst;
+	t_list				*current;
 
-	nn->params.save->genome[nn->params.save->genome_index].node_count
-		= genome_src->node_count;
+	genome_dst = nn->params.save->genome + nn->params.save->genome_index;
+	genome_dst->node_count = genome_src->node_count;
+	genome_dst->fitness = genome_src->fitness;
 	current = genome_src->node;
 	while (current)
 	{

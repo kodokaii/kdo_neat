@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 00:55:56 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 03:39:09 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ void	kdo_population_load(t_kdo_neat *nn)
 		genome = kdo_get_genome(nn);
 		i++;
 	}
-	free(nn->params.load->genome);
-	free(nn->params.load->node);
-	free(nn->params.load->link);
+	kdo_free_save(nn->params.load);
+	kdo_update_fitness(nn);
 }
 
 void	kdo_population_init(t_kdo_neat *nn)
@@ -66,24 +65,26 @@ void	kdo_population_init(t_kdo_neat *nn)
 		kdo_push_to_species(nn, kdo_find_species(nn, genome), genome);
 		genome = kdo_get_genome(nn);
 	}
+	kdo_run(nn);
+	kdo_update_fitness(nn);
 }
 
 void	kdo_save_population(t_kdo_neat *nn)
 {
-	t_uint	i;
+	t_kdo_save_population	*population_dst;
+	t_uint					i;
 
-	nn->params.save->population.input_count = nn->params.input_count;
-	nn->params.save->population.output_count = nn->params.output_count;
-	nn->params.save->population.genome_count = nn->population.genome_count;
-	nn->params.save->population.node_count = 0;
-	nn->params.save->population.link_count = 0;
+	population_dst = &nn->params.save->population;
+	population_dst->input_count = nn->params.input_count;
+	population_dst->output_count = nn->params.output_count;
+	population_dst->genome_count = nn->population.genome_count;
+	population_dst->node_count = 0;
+	population_dst->link_count = 0;
 	i = 0;
 	while (i < nn->population.genome_count)
 	{
-		nn->params.save->population.node_count
-			+= nn->population.genome[i].node_count;
-		nn->params.save->population.link_count
-			+= nn->population.genome[i].link_count;
+		population_dst->node_count += nn->population.genome[i].node_count;
+		population_dst->link_count += nn->population.genome[i].link_count;
 		i++;
 	}
 }

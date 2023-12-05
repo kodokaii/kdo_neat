@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 02:43:24 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 03:26:17 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_kdo_save_node
 typedef struct s_kdo_save_genome
 {
 	t_uint	node_count;
+	float	fitness;
 }	t_kdo_save_genome;
 
 typedef struct s_kdo_save_population

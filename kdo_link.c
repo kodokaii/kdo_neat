@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 01:49:55 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 03:38:23 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ void	kdo_mutate_link(t_kdo_neat *nn, t_kdo_link *link)
 
 void	kdo_save_link(t_kdo_neat *nn, t_kdo_link *link_src)
 {
-	nn->params.save->link[nn->params.save->link_index].to_id
-		= link_src->to->id;
-	nn->params.save->link[nn->params.save->link_index].weight
-		= link_src->weight;
-	nn->params.save->link[nn->params.save->link_index].enable
-		= link_src->enable;
+	t_kdo_save_link	*link_dst;
+
+	link_dst = nn->params.save->link + nn->params.save->link_index;
+	link_dst->to_id = link_src->to->id;
+	link_dst->weight = link_src->weight;
+	link_dst->enable = link_src->enable;
 	nn->params.save->link_index++;
 }

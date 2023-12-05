@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 01:29:21 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 03:36:11 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,16 @@ void	kdo_mutate_node(t_kdo_neat *nn, t_kdo_node *node)
 
 void	kdo_save_node(t_kdo_neat *nn, t_kdo_node *node_src)
 {
-	t_list	*current;
+	t_kdo_save_node	*node_dst;
+	t_list			*current;
 
-	nn->params.save->node[nn->params.save->node_index].link_count
-		= node_src->link_count;
-	nn->params.save->node[nn->params.save->node_index].bias
-		= node_src->bias;
-	nn->params.save->node[nn->params.save->node_index].activation_index
-		= node_src->activation_index;
-	nn->params.save->node[nn->params.save->node_index].layer = node_src->layer;
-	nn->params.save->node[nn->params.save->node_index].type = node_src->type;
-	nn->params.save->node[nn->params.save->node_index].id = node_src->id;
+	node_dst = nn->params.save->node + nn->params.save->node_index;
+	node_dst->link_count = node_src->link_count;
+	node_dst->bias = node_src->bias;
+	node_dst->activation_index = node_src->activation_index;
+	node_dst->layer = node_src->layer;
+	node_dst->type = node_src->type;
+	node_dst->id = node_src->id;
 	current = node_src->link;
 	while (current)
 	{
