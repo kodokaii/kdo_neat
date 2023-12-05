@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/04 18:59:19 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 02:43:49 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ static int	_alloc(t_kdo_save_neat *save)
 			* sizeof(t_kdo_save_link));
 	if (!save->genome || !save->node || !save->link)
 	{
-		free(save->genome);
-		free(save->node);
-		free(save->link);
+		kdo_free_save(save);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

@@ -6,11 +6,21 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/03 16:22:49 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 02:43:11 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
+
+void	kdo_free_save(t_kdo_save_neat *save)
+{
+	free(save->genome);
+	free(save->node);
+	free(save->link);
+	save->genome = NULL;
+	save->node = NULL;
+	save->link = NULL;
+}
 
 void	kdo_free_population(t_kdo_population *population)
 {

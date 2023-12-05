@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 00:55:30 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 02:43:24 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,8 @@ typedef struct s_kdo_neat
 }	t_kdo_neat;
 
 void			kdo_neat(t_kdo_neat_params *params);
+int				kdo_write_save(t_kdo_save_neat *save, char *file_name);
+int				kdo_read_save(t_kdo_save_neat *save, char *file_name);
 
 void			kdo_print_link(t_kdo_link *link, int fd);
 void			kdo_print_node(t_kdo_node *node, int fd);
@@ -266,6 +268,7 @@ float			kdo_relu(float in);
 float			kdo_softsign(float in);
 float			kdo_sigmoid(float in);
 
+void			kdo_free_save(t_kdo_save_neat *save);
 void			kdo_free_population(t_kdo_population *population);
 void			kdo_neat_cleanup(t_kdo_neat *nn, char *str_error, int error);
 
