@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/04 18:47:05 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 01:57:15 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,13 @@ void	kdo_init(t_kdo_neat *nn, t_kdo_neat_params *params)
 	nn->output = malloc(params->output_count * sizeof(float));
 	kdo_population_alloc(nn, &nn->population);
 	kdo_population_alloc(nn, &nn->old_population);
-	kdo_population_init(nn);
+	if (params->load)
+	{
+		if (params->load->population.input_count != params->input_count
+			|| params->load->population.output_count != params->output_count)
+			kdo_neat_cleanup(nn, "Load invalid", EXIT_FAILURE);
+		kdo_population_load(nn);
+	}
+	else
+		kdo_population_init(nn);
 }

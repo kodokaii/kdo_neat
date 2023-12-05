@@ -6,11 +6,34 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/04 18:36:36 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 01:49:55 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
+
+void	kdo_link_load(t_kdo_neat *nn, t_kdo_genome *genome_from,
+		t_kdo_node *node_from)
+{
+	t_kdo_save_node	*node_src;
+	t_kdo_save_link	*link_src;
+	t_kdo_link		*link_dst;
+	t_uint			i;
+
+	i = 0;
+	node_src = nn->params.load->node + nn->params.load->node_index;
+	while (i++ < node_src->link_count)
+	{
+		link_src = nn->params.load->link + nn->params.load->link_index;
+		link_dst = kdo_get_link(nn,
+				kdo_find_node_id(genome_from, link_src->to_id));
+		link_dst->weight = link_src->weight;
+		link_dst->enable = link_src->enable;
+		kdo_add_link(nn, genome_from, node_from, link_dst);
+		nn->params.load->link_index++;
+	}
+	nn->params.load->node_index++;
+}
 
 void	kdo_feed_forward_link(t_kdo_link *link, float input)
 {
@@ -49,5 +72,5 @@ void	kdo_save_link(t_kdo_neat *nn, t_kdo_link *link_src)
 		= link_src->weight;
 	nn->params.save->link[nn->params.save->link_index].enable
 		= link_src->enable;
-	nn->params.save->link_index = 0;
+	nn->params.save->link_index++;
 }

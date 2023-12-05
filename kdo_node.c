@@ -6,11 +6,27 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/04 18:37:27 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 01:29:21 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "kdo_neat.h"
+
+void	kdo_node_load(t_kdo_neat *nn, t_kdo_genome *genome_from)
+{
+	t_kdo_save_node	*node_src;
+	t_kdo_node		*node_dst;
+	t_uint			i;
+
+	i = 0;
+	node_src = nn->params.load->node + nn->params.load->node_index;
+	node_dst = kdo_get_node(nn, node_src->layer, node_src->type, node_src->id);
+	node_dst->bias = node_src->bias;
+	node_dst->activation_index
+		= node_src->activation_index % nn->params.activation_func_count;
+	kdo_add_node(nn, genome_from, node_dst);
+	nn->params.load->node_index++;
+}
 
 void	kdo_feed_forward_node(t_kdo_neat *nn, t_kdo_node *node)
 {

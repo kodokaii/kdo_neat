@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/04 18:56:00 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 00:55:56 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,30 @@ void	kdo_population_alloc(t_kdo_neat *nn, t_kdo_population *population)
 	population->species_count = 0;
 }
 
+void	kdo_population_load(t_kdo_neat *nn)
+{
+	t_kdo_save_population	*population_src;	
+	t_kdo_genome			*genome;
+	t_uint					i;
+
+	i = 0;
+	nn->params.load->genome_index = 0;
+	nn->params.load->node_index = 0;
+	nn->params.load->link_index = 0;
+	population_src = &nn->params.load->population;
+	genome = kdo_get_genome(nn);
+	while (genome && i < population_src->genome_count)
+	{
+		kdo_genome_load(nn, genome);
+		kdo_push_to_species(nn, kdo_find_species(nn, genome), genome);
+		genome = kdo_get_genome(nn);
+		i++;
+	}
+	free(nn->params.load->genome);
+	free(nn->params.load->node);
+	free(nn->params.load->link);
+}
+
 void	kdo_population_init(t_kdo_neat *nn)
 {
 	t_kdo_genome	*genome;
@@ -48,7 +72,6 @@ void	kdo_save_population(t_kdo_neat *nn)
 {
 	t_uint	i;
 
-	nn->params.save->population.generation_count = nn->generation_being;
 	nn->params.save->population.input_count = nn->params.input_count;
 	nn->params.save->population.output_count = nn->params.output_count;
 	nn->params.save->population.genome_count = nn->population.genome_count;
