@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/03 19:38:11 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 20:08:09 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,23 +91,22 @@ void	kdo_crossover_species(t_kdo_neat *nn, t_kdo_species *species_src)
 	t_kdo_genome	*parent2;
 	float			fitness_sum;
 
-	if (2 <= species_src->genome_count)
+	ft_lstsort(&species_src->genome, kdo_genome_fitness_cmp);
+	child_count = _child_count(nn, species_src);
+	fitness_sum = _fitness_sum(nn, species_src);
+	if (child_count)
 	{
-		ft_lstsort(&species_src->genome, kdo_genome_fitness_cmp);
-		child_count = _child_count(nn, species_src);
-		fitness_sum = _fitness_sum(nn, species_src);
-		if (child_count && fitness_sum)
+		species_dst = kdo_get_species(nn);
+		species_dst->no_progress_count = species_src->no_progress_count;
+		parent1 = kdo_dup_genome(nn, species_src->genome->data);
+		kdo_push_to_species(nn, species_dst, parent1);
+		while (--child_count && 2 <= species_src->genome_count)
 		{
-			species_dst = kdo_get_species(nn);
-			species_dst->no_progress_count = species_src->no_progress_count;
-			while (child_count--)
-			{
-				parent1 = _get_parent1(species_src, fitness_sum);
-				parent2 = _get_parent2(species_src, parent1, fitness_sum);
-				parent1 = kdo_dup_genome(nn, parent1);
-				kdo_crossover_genome(parent1, parent2);
-				kdo_push_to_species(nn, species_dst, parent1);
-			}
+			parent1 = _get_parent1(species_src, fitness_sum);
+			parent2 = _get_parent2(species_src, parent1, fitness_sum);
+			parent1 = kdo_dup_genome(nn, parent1);
+			kdo_crossover_genome(parent1, parent2);
+			kdo_push_to_species(nn, species_dst, parent1);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>	+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 13:51:30 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 20:39:29 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	_get_prob(t_kdo_neat_params *params)
 	params->node_coef = 3.0f;
 	params->weight_coef = 1.0f;
 	params->bias_coef = 1.5f;
+	params->weight_cap = 8.0f;
 	params->compatibility_limit = 10.0f;
 	params->compatibility_modifer = 0.3f;
 	params->dropoff_age = 15;

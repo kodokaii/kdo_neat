@@ -6,7 +6,7 @@
 /*   By: nlaerema <nlaerema@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:58:17 by nlaerema          #+#    #+#             */
-/*   Updated: 2023/12/05 13:21:07 by nlaerema         ###   ########.fr       */
+/*   Updated: 2023/12/05 20:38:55 by nlaerema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ typedef struct s_kdo_neat_params
 	float					node_coef;
 	float					weight_coef;
 	float					bias_coef;
+	float					weight_cap;
 	float					compatibility_limit;
 	float					compatibility_modifer;
 	float					dropoff_age;
